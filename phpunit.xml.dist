@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" executionOrder="random">
+    <logging>
+        <log type="coverage-clover" target="clover.xml" />
+    </logging>
+    <testsuites>
+        <testsuite name="admin_pages">
+            <directory prefix="Test_" suffix=".php">./tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
+
+    <php>
+        <env name="WP_PHPUNIT__TESTS_CONFIG" value="tests/wp-config.php" />
+    </php>
+
+
+</phpunit>
