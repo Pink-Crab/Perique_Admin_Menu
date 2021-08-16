@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace PinkCrab\Perique_Admin_Menu\Registrar;
 
 use TypeError;
+use PinkCrab\Perique_Admin_Menu\Hooks;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
@@ -38,7 +39,7 @@ class Registrar {
 	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
 	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group $group
 	 * @return void
-	 * @throws Page_Exception (Code 202)
+	 * @throws Page_Exception (Code 204)
 	 * @throws TypeError
 	 */
 	public function register_primary( Page $page, Abstract_Group $group = null ): void {
@@ -46,9 +47,6 @@ class Registrar {
 		switch ( get_parent_class( $page ) ) {
 			// For menu pages
 			case Menu_Page::class:
-				/** @var Menu_Page */
-				$page = $page;
-
 				if ( $group === null ) {
 					throw new TypeError( 'Valid group must be passed to create Menu_Page' );
 				}
@@ -70,7 +68,7 @@ class Registrar {
 				break;
 
 			default:
-				throw Page_Exception::invalid_page_type( $page );
+				do_action( Hooks::PAGE_REGISTRAR_PRIMARY, $page, $group );
 		}
 	}
 
@@ -80,7 +78,7 @@ class Registrar {
 	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
 	 * @param string $parent_slug
 	 * @return void
-	 * @throws Page_Exception (Code 202)
+	 * @throws Page_Exception (Code 204)
 	 */
 	public function register_subpage( Page $page, string $parent_slug ): void {
 		switch ( get_parent_class( $page ) ) {
@@ -100,53 +98,7 @@ class Registrar {
 				}
 				break;
 			default:
-				throw Page_Exception::invalid_page_type( $page );
+				do_action( Hooks::PAGE_REGISTRAR_SUB, $page, $parent_slug );
 		}
 	}
-
-	/**
-	 * Registers a parent menu page.
-	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Menu_Page $page
-	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group $group
-	 * @return string
-	 */
-	protected function create_menu_page( Menu_Page $page, Abstract_Group $group ): string {
-		return add_menu_page(
-			$page->page_title() ?? '',
-			$group->get_group_title(),
-			$group->get_capability(),
-			$page->slug(),
-			$page->render_view(),
-			$group->get_icon(),
-			$group->get_position()
-		);
-	}
-
-	/**
-	 * Registers a submenu page.
-	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Menu_Page $page
-	 * @param string $parent_slug
-	 * @return string
-	 */
-	protected function create_submenu_page( Menu_Page $page, string $parent_slug ): string {
-		$hook = add_submenu_page(
-			$parent_slug,
-			$page->page_title() ?? '',
-			$page->menu_title(),
-			$page->capability(),
-			$page->slug(),
-			$page->render_view(),
-			$page->position()
-		);
-
-		if ( ! is_string( $hook ) ) {
-			throw Page_Exception::failed_to_register_page( $page );
-		}
-
-		return $hook;
-	}
-
-
 }
