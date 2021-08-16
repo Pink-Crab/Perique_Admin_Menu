@@ -57,6 +57,7 @@ class Page_Middleware implements Registration_Middleware {
 	 * @return object
 	 */
 	public function process( $class ) {
+
 		// If we have a valid page.
 		if (
 			is_a( $class, Page::class )

@@ -28,6 +28,7 @@ use Throwable;
 use PinkCrab\Perique\Services\View\View;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique\Interfaces\DI_Container;
+use PinkCrab\Perique_Admin_Menu\Page\Setting_Page;
 use PinkCrab\Perique_Admin_Menu\Registrar\Registrar;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
@@ -222,10 +223,14 @@ class Page_Dispatcher {
 		if ( ! current_user_can( $page->capability() ) ) {
 			return;
 		}
-
 		// Register view if requied.
 		if ( \method_exists( $page, 'set_view' ) ) {
 			$page->set_view( $this->view );
+		}
+
+		// Build settings if settings page.
+		if ( is_a( $page, Setting_Page::class ) ) {
+			$page->construct_settings( $this->di_container );
 		}
 
 		try {

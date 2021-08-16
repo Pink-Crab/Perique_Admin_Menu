@@ -26,8 +26,9 @@ namespace PinkCrab\Perique_Admin_Menu;
 
 use TypeError;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
-use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
+use PinkCrab\Perique_Admin_Menu\Page\Setting_Page;
+use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
 
 class Page_Factory {
@@ -70,8 +71,7 @@ class Page_Factory {
 	public function register_subpage( Page $page, string $parent_slug ): string {
 		switch ( get_parent_class( $page ) ) {
 			case Menu_Page::class:
-				/** @var Menu_Page */
-				$page = $page;
+			case Setting_Page::class:
 				return $this->create_submenu_page( $page, $parent_slug );
 
 			default:

@@ -27,6 +27,8 @@ namespace PinkCrab\Perique_Admin_Menu\Registrar;
 use TypeError;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
+use PinkCrab\Perique_Admin_Menu\Page\Setting_Page;
+use PinkCrab\Perique_Admin_Menu\Page\Settings_Page;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
 
@@ -46,6 +48,7 @@ class Registrar {
 		switch ( get_parent_class( $page ) ) {
 			// For menu pages
 			case Menu_Page::class:
+			case Setting_Page::class:
 				/** @var Menu_Page */
 				$page = $page;
 
@@ -85,6 +88,7 @@ class Registrar {
 	public function register_subpage( Page $page, string $parent_slug ): void {
 		switch ( get_parent_class( $page ) ) {
 			case Menu_Page::class:
+			case Setting_Page::class:
 				$hook = add_submenu_page(
 					$parent_slug,
 					$page->page_title() ?? '',
@@ -99,6 +103,7 @@ class Registrar {
 					throw Page_Exception::failed_to_register_page( $page );
 				}
 				break;
+
 			default:
 				throw Page_Exception::invalid_page_type( $page );
 		}
