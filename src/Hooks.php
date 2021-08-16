@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Hooks
+ * Admin Menu hooks
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,11 +26,18 @@ namespace PinkCrab\Perique_Admin_Menu;
 
 class Hooks {
 
+	/**
+	 * The base prefix for all hooks.
+	 */
 	protected const HOOK_PREFIX = 'pinkcrab/admin_menu/';
 
 	/**
-	 * Registrar by Page Type.
+	 * Register other primary pages.
 	 */
 	public const PAGE_REGISTRAR_PRIMARY = self::HOOK_PREFIX . 'page_registrar_primary';
-	public const PAGE_REGISTRAR_SUB     = self::HOOK_PREFIX . 'page_registrar_sub';
+
+	/**
+	 * Register other sub pages.
+	 */
+	public const PAGE_REGISTRAR_SUB = self::HOOK_PREFIX . 'page_registrar_sub';
 }
