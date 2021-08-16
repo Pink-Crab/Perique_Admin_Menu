@@ -28,9 +28,9 @@ namespace PinkCrab\Perique_Admin_Menu\Tests\Unit;
 
 use TypeError;
 use WP_UnitTestCase;
+use PinkCrab\Perique_Admin_Menu\Hooks;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Registrar\Registrar;
-use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Primary_Page;
 
 class Test_Registrar extends WP_UnitTestCase {
@@ -38,31 +38,53 @@ class Test_Registrar extends WP_UnitTestCase {
 	/** @testdox Attempting to register a primary menu_page without a group, should result in an error. */
 	public function test_throws_exception_with_menu_primary_page_but_no_group() {
 		$this->expectException( TypeError::class );
-		$factory = new Registrar();
-		$factory->register_primary( new Valid_Primary_Page(), null );
+		$registrar = new Registrar();
+		$registrar->register_primary( new Valid_Primary_Page(), null );
 	}
 
-	/** @testdox An invalid primary page type should result in an error.*/
-	public function test_throws_exception_with_invalid_primary_page_type(): void {
-		$this->expectException( Page_Exception::class );
+	/** @testdox When other types of primary page are passed to the registrar, an action should be fired to allow other extensions to register pages.*/
+	public function test_fires_primary_page_action_with_custom_page_typey(): void {
 
-		$factory = new Registrar();
-		$this->createMock( Page::class );
-		$factory->register_primary(
-			$this->createMock( Page::class )
+		$mock_page     = $this->createMock( Page::class );
+		$action_called = false;
+
+		add_action(
+			Hooks::PAGE_REGISTRAR_PRIMARY,
+			function( $page, $group ) use ( &$action_called, $mock_page ) {
+				if ( $page === $mock_page ) {
+					$action_called = true;
+				}
+			},
+			10,
+			2
 		);
+
+		$registrar = new Registrar();
+		$registrar->register_primary( $mock_page );
+
+		$this->assertTrue( $action_called );
 	}
 
-	/** @testdox An invalid sub page type should result in an error.*/
-    public function test_throws_exception_with_invalid_sub_page_type(): void {
-		$this->expectException( Page_Exception::class );
+	/** @testdox When other types of sub page are passed to the registrar, an action should be fired to allow other extensions to register pages.*/
+	public function test_fires_sub_page_action_with_custom_page_type(): void {
+		
+		$mock_page     = $this->createMock( Page::class );
+		$action_called = false;
 
-		$factory = new Registrar();
-		$this->createMock( Page::class );
-		$factory->register_subpage(
-			$this->createMock( Page::class ),
-			'parent_slug'
+		add_action(
+			Hooks::PAGE_REGISTRAR_SUB,
+			function( $page, $parent_slug ) use ( &$action_called, $mock_page ) {
+				if ( $page === $mock_page && $parent_slug === 'parent_slug' ) {
+					$action_called = true;
+				}
+			},
+			10,
+			2
 		);
+
+		$registrar = new Registrar();
+		$registrar->register_subpage( $mock_page, 'parent_slug' );
+		$this->assertTrue( $action_called );
 	}
 
 }
