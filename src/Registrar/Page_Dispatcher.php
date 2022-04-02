@@ -209,8 +209,8 @@ class Page_Dispatcher {
 		$submenu[ $primary->slug() ][ $primary_page_key ][0] = $primary->menu_title();
 	}
 
-	// Single Pages
-		/**
+
+	/**
 	 * Registers a subpage.
 	 *
 	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
