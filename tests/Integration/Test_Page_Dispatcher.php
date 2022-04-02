@@ -39,7 +39,7 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 	use Helper_Factory;
 
 
-	public function setup() {
+	public function setUp(): void {
 		parent::setup();
 		$this->unset_app_instance();
 	}

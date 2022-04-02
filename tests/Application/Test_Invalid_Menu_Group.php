@@ -40,12 +40,12 @@ class Test_Invalid_Menu_Group extends WP_UnitTestCase {
 
 	use Helper_Factory;
 
-	public function setup() {
-		parent::setup();
+	public function setUp(): void {
+		parent::setUp();
 		$this->unset_app_instance();
 	}
 
-	/** 
+	/**
 	 * @testdox [APPLICATION] If the current user fails to meet the permissions defined to the group, do not create group.
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
@@ -64,35 +64,34 @@ class Test_Invalid_Menu_Group extends WP_UnitTestCase {
 			)
 			->boot();
 
-		$app->registration_middleware($this->middleware_provider($app));
-		$app->registration_classes([Valid_Group::class]);
+		$app->registration_middleware( $this->middleware_provider( $app ) );
+		$app->registration_classes( array( Valid_Group::class ) );
 
-        // Log in as customer and run the apps initialisation (on init hook)
+		// Log in as customer and run the apps initialisation (on init hook)
 		$admin_user = self::factory()->user->create( array( 'role' => 'customer' ) );
 		wp_set_current_user( $admin_user );
 		set_current_screen( 'dashboard' );
-		do_action('init');
+		do_action( 'init' );
 
-		$defined_group = new Valid_Group();
+		$defined_group   = new Valid_Group();
 		$defined_primary = new Valid_Primary_Page();
 
 		// Build Page Inspector
-		$inspector = Menu_Page_Inspector::initialise(true);
+		$inspector = Menu_Page_Inspector::initialise( true );
 
-        // Group Tests.
+		// Group Tests.
 		$group = $inspector->find_group( Valid_Primary_Page::PAGE_SLUG );
 
 		$this->assertNull( $group );
 
-    }
-    /** 
+	}
+	/**
 	 * @testdox [APPLICATION] If an exception is thrown during group regisutration and admin notice should be shown.
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	*/
-    public function test_throws_error_creating_group(): void
-    {
-        $app = ( new App_Factory() )->with_wp_dice( true )
+	public function test_throws_error_creating_group(): void {
+		$app = ( new App_Factory() )->with_wp_dice( true )
 			->di_rules(
 				array(
 					'*' => array(
@@ -104,18 +103,18 @@ class Test_Invalid_Menu_Group extends WP_UnitTestCase {
 			)
 			->boot();
 
-		$app->registration_middleware($this->middleware_provider($app));
-		$app->registration_classes([Invalid_Group::class]);
+		$app->registration_middleware( $this->middleware_provider( $app ) );
+		$app->registration_classes( array( Invalid_Group::class ) );
 
-        // Log in as customer and run the apps initialisation (on init hook)
+		// Log in as customer and run the apps initialisation (on init hook)
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
 		set_current_screen( 'dashboard' );
-		do_action('init');
-        do_action( 'admin_menu' );
-        $this->expectOutputRegex('/The primary page is not defined in/');
-        $this->expectOutputRegex('/PinkCrab\\\Perique_Admin_Menu\\\Tests\\\Fixtures\\\Invalid_Group\\\Invalid_Group/');
-        do_action('admin_notices');
+		do_action( 'init' );
+		do_action( 'admin_menu' );
+		$this->expectOutputRegex( '/The primary page is not defined in/' );
+		$this->expectOutputRegex( '/PinkCrab\\\Perique_Admin_Menu\\\Tests\\\Fixtures\\\Invalid_Group\\\Invalid_Group/' );
+		do_action( 'admin_notices' );
 
-    }
+	}
 }
