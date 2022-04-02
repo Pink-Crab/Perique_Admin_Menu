@@ -34,7 +34,7 @@ class Test_Abstract_Validator extends WP_UnitTestCase {
 
 	protected $mock_validator;
 
-	public function setUp() {
+	public function setUp(): void {
 		$this->mock_validator = new class() extends Abstract_Validator{
 			public function validate( $subject ): bool {
 				return true;

@@ -40,7 +40,7 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 
 	use Helper_Factory;
 
-	public function setup() {
+	public function setUp(): void {
 		parent::setup();
 		$this->unset_app_instance();
 	}
