@@ -206,7 +206,7 @@ class Page_Dispatcher {
 			true
 		) ?: 0;
 
-		$submenu['valid_primary_page'][ $primary_page_key ][0] = $primary->menu_title();
+		$submenu[ $primary->slug() ][ $primary_page_key ][0] = $primary->menu_title();
 	}
 
 	// Single Pages
