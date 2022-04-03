@@ -133,4 +133,13 @@ abstract class Abstract_Group {
 	public function get_position(): int {
 		return $this->position;
 	}
+
+	/**
+	 * The enqueue script function for all pages in the group.
+	 *
+	 * @param Abstract_Group $group
+	 * @return void
+	 */
+	public function enqueue( Abstract_Group $group ): void {
+	}
 }

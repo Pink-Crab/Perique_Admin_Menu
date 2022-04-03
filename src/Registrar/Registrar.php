@@ -65,6 +65,21 @@ class Registrar {
 				if ( ! is_string( $result ) ) {
 					throw Page_Exception::failed_to_register_page( $page );
 				}
+
+				// Trigger enqueue actions.
+				add_action(
+					'enqueue_admin_scripts',
+					function( string $page_hook ) use ( $result, $group ) {
+						if ( $page_hook === $result ) {
+							$group->enqueue( $group );
+							dump($result);
+						}
+					}
+				);
+
+				// do_action( Hooks::ENQUEUE_GROUP, )
+
+				// var_dump( $result );
 				break;
 
 			default:

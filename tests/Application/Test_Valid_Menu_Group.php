@@ -45,8 +45,8 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 		$this->unset_app_instance();
 	}
 
-	/** 
-	 * @testdox [APPLICATION] When a valid group is registered, all of the defined group values should be used to regiser the group and all the pages should also be registered, with the group title differing form that of the primary page. 
+	/**
+	 * @testdox [APPLICATION] When a valid group is registered, all of the defined group values should be used to regiser the group and all the pages should also be registered, with the group title differing form that of the primary page.
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	*/
@@ -64,21 +64,20 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 			)
 			->boot();
 
-		$app->registration_middleware($this->middleware_provider($app));
-		$app->registration_classes([Valid_Group::class]);
+		$app->registration_middleware( $this->middleware_provider( $app ) );
+		$app->registration_classes( array( Valid_Group::class ) );
 
 		// Log in as admin and run the apps initialisation (on init hook)
 		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $admin_user );
 		set_current_screen( 'dashboard' );
-		do_action('init');
+		do_action( 'init' );
 
-
-		$defined_group = new Valid_Group();
+		$defined_group   = new Valid_Group();
 		$defined_primary = new Valid_Primary_Page();
 
 		// Build Page Inspector
-		$inspector = Menu_Page_Inspector::initialise(true);
+		$inspector = Menu_Page_Inspector::initialise( true );
 
 		// Group Tests.
 		$group = $inspector->find_group( Valid_Primary_Page::PAGE_SLUG );
@@ -109,5 +108,39 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 			}
 		);
 		$this->assertEquals( 'Valid Primary Page Data', $output_priamry );
+	}
+
+	/**
+	 * @testdox [APPLICATION] When a valid group is registered, all the page and group hooks should be registered.
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	*/
+	public function test_valid_group_page_hooks(): void {
+		$app = ( new App_Factory() )->with_wp_dice( true )
+			->di_rules(
+				array(
+					'*' => array(
+						'substitutions' => array(
+							Renderable::class => new PHP_Engine( '/' ),
+						),
+					),
+				)
+			)
+			->boot();
+
+		$app->registration_middleware( $this->middleware_provider( $app ) );
+		$app->registration_classes( array( Valid_Group::class ) );
+
+		// Log in as admin and run the apps initialisation (on init hook)
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+		set_current_screen( 'dashboard' );
+		do_action( 'init' );
+
+		// Build Page Inspector
+		$inspector = Menu_Page_Inspector::initialise( true );
+
+		// Group Tests.
+		$group = $inspector->find_group( Valid_Primary_Page::PAGE_SLUG );
 	}
 }
