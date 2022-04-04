@@ -40,25 +40,20 @@ class Registrar {
 	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
 	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
-	 * @throws TypeError
 	 */
 	public function register_primary( Page $page, ?Abstract_Group $group = null ): void {
 
 		switch ( get_parent_class( $page ) ) {
 			// For menu pages
 			case Menu_Page::class:
-				if ( $group === null ) {
-					throw new TypeError( 'Valid group must be passed to create Menu_Page' );
-				}
-
 				$hook = add_menu_page(
 					$page->page_title() ?? '',
-					$group->get_group_title(),
-					$group->get_capability(),
+					$group ? $group->get_group_title() : $page->menu_title(),
+					$group ? $group->get_capability() : $page->capability(),
 					$page->slug(),
 					$page->render_view(),
-					$group->get_icon(),
-					(int) $group->get_position()
+					$group ? $group->get_icon() : '',
+					(int) ( $group ? $group->get_position() : $page->position() )
 				);
 
 				// Register Enqueue hooks for page/group.

@@ -219,18 +219,37 @@ class Page_Dispatcher {
 	 * @return void
 	 */
 	public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
-		// If user cant access the page, bail before attemptin to register.
+		// If user cant access the page, bail before attempting to register.
 		if ( ! current_user_can( $page->capability() ) ) {
 			return;
 		}
 
-		// Register view if requied.
+		// Register view if required.
 		if ( \method_exists( $page, 'set_view' ) ) {
 			$page->set_view( $this->view );
 		}
 
 		try {
 			$this->registrar->register_subpage( $page, $parent_slug, $group );
+		} catch ( \Throwable $th ) {
+			$this->admin_exception_notice( $page, $th );
+		}
+	}
+
+	/**
+	 * Registers a single page.
+	 *
+	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
+	 * @return void
+	 */
+	public function register_single_page( Page $page ): void {
+		// Register view if required.
+		if ( \method_exists( $page, 'set_view' ) ) {
+			$page->set_view( $this->view );
+		}
+
+		try {
+			$this->registrar->register_primary( $page, null );
 		} catch ( \Throwable $th ) {
 			$this->admin_exception_notice( $page, $th );
 		}
