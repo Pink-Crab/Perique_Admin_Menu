@@ -31,11 +31,9 @@ use Exception;
 use TypeError;
 use WP_UnitTestCase;
 use Gin0115\WPUnit_Helpers\Objects;
-use PinkCrab\Perique\Application\App;
 use PinkCrab\Perique\Services\View\View;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique\Interfaces\DI_Container;
-use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 use PinkCrab\Perique_Admin_Menu\Registrar\Registrar;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
@@ -54,7 +52,7 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 		return new Page_Dispatcher( $di, $view, $registrar );
 	}
 
-	/** @testdox When creating an instance of the group registrar, all used interal  */
+	/** @testdox When creating an instance of the group registrar, all used internal  */
 	public function test_populates_internal_state(): void {
 		$di        = $this->createMock( DI_Container::class );
 		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
@@ -67,6 +65,7 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 		$this->assertSame( $registrar, Objects::get_property( $dispatcher, 'registrar' ) );
 	}
 
+	/** @testdox All exceptions thrown while creating pages and groups should be shown as admin notices. */
 	public function test_admin_exception(): void {
 		$dispatcher = $this->get_mock_dispatcher();
 
@@ -79,7 +78,7 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 		\do_action( 'admin_notices' );
 	}
 
-
+	/** @testdox The dispatcher should be able to get the primary page using the DI container from class name. */
 	public function test_get_primary_page(): void {
 		$di = $this->createMock( DI_Container::class );
 		$di->method( 'create' )->will(
@@ -99,6 +98,7 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 		$this->assertInstanceOf( View::class, Objects::get_property( $page, 'view' ) );
 	}
 
+	/** @testdox If a none PAGE object is used as the primary page to a group, a Page_Exception should be thrown. */
 	public function test_exception_thrown_if_invalid_primary_page_type() {
 		$di = $this->createMock( DI_Container::class );
 		$di->method( 'create' )->will(

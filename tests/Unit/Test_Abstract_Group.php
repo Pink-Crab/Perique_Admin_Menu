@@ -41,7 +41,7 @@ class Test_Abstract_Group extends WP_UnitTestCase {
 	}
 
 	/** @testdox If a group title is not set, it should result in an error. */
-	public function test_throws_with_missing_gruop_title(): void {
+	public function test_throws_with_missing_group_title(): void {
 		$this->expectException( Group_Exception::class );
 		$this->expectExceptionCode( 251 );
 		$invalid_group = new Invalid_Group();
