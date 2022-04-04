@@ -32,7 +32,8 @@ use PinkCrab\Perique\Interfaces\Renderable;
 use PinkCrab\Perique\Application\App_Factory;
 use PinkCrab\Perique\Services\View\PHP_Engine;
 use Gin0115\WPUnit_Helpers\WP\Menu_Page_Inspector;
-use PinkCrab\Perique_Admin_Menu\Registrar\Page_Enqueue;
+use PinkCrab\Perique_Admin_Menu\Registrar\Page_Load_Action;
+use PinkCrab\Perique_Admin_Menu\Registrar\Page_Enqueue_Action;
 use PinkCrab\Perique_Admin_Menu\Tests\Integration\Helper_Factory;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Page;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Group;
@@ -117,7 +118,7 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	*/
-	public function test_valid_group_page_hooks(): void {
+	public function test_valid_group_page_enqueue_hooks(): void {
 
 		$defined_group   = new Valid_Group();
 		$defined_primary = new Valid_Primary_Page();
@@ -151,7 +152,7 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 			array_filter(
 				$GLOBALS['wp_filter']['admin_enqueue_scripts']->callbacks[10],
 				function( array $hook_def ): bool {
-					return $hook_def['function'] instanceof Page_Enqueue;
+					return $hook_def['function'] instanceof Page_Enqueue_Action;
 				}
 			)
 		);
@@ -189,6 +190,69 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 		// Check that the hook was fired for child page.
 		$this->assertCount( 1, $defined_child::$enqueue_log );
 		$this->assertInstanceOf( Valid_Page::class, $defined_child::$enqueue_log[0] );
+	}
+
+	/**
+	 * @testdox [APPLICATION] When a valid group is registered, all the page and group hooks should be registered for on_load and on load.
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	*/
+	public function test_valid_group_page_on_load_hooks(): void {
+
+		$defined_group   = new Valid_Group();
+		$defined_primary = new Valid_Primary_Page();
+		$defined_child   = new Valid_Page();
+
+		$app = ( new App_Factory() )->with_wp_dice( true )
+			->di_rules(
+				array(
+					'*' => array(
+						'substitutions' => array(
+							Renderable::class => new PHP_Engine( '/' ),
+						),
+					),
+				)
+			)
+			->boot();
+
+		$app->registration_middleware( $this->middleware_provider( $app ) );
+		$app->registration_classes( array( Valid_Group::class ) );
+
+		// Log in as admin and run the apps initialisation (on init hook)
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+		set_current_screen( 'toplevel_page_' . $defined_primary::PAGE_SLUG );
+		do_action( 'init' );
+		// Register the page hooks
+		do_action( 'admin_menu' );
+
+		// Trigger the primary page pre load hook.
+		do_action( 'load-toplevel_page_valid_primary_page' );
+		// The log should only have 1 entry (parent).
+		$this->assertCount( 1, $defined_group::$load_log );
+		$this->assertInstanceOf( Valid_Group::class, $defined_group::$load_log[0][0] );
+		$this->assertInstanceOf( Valid_Primary_Page::class, $defined_group::$load_log[0][1] );
+
+		// Check the PARENT page callback was fired too.
+		$this->assertCount( 1, $defined_primary::$load_log );
+		$this->assertInstanceOf( Valid_Primary_Page::class, $defined_primary::$load_log[0] );
+
+		// Reset Logs
+		$defined_group::$load_log   = array();
+		$defined_primary::$load_log = array();
+		$defined_child::$load_log   = array();
+
+		// Trigger the child page pre load hook.
+		do_action( 'load-valid-page-group_page_valid_page' );
+
+		// The log should only have 1 entry (child).
+		$this->assertCount( 1, $defined_group::$load_log );
+		$this->assertInstanceOf( Valid_Page::class, $defined_group::$load_log[0][1] );
+		$this->assertInstanceOf( Valid_Group::class, $defined_group::$load_log[0][0] );
+
+		// Check that CHILD callback was fired too.
+		$this->assertCount( 1, $defined_child::$load_log );
+		$this->assertInstanceOf( Valid_Page::class, $defined_child::$load_log[0] );
 	}
 }
 

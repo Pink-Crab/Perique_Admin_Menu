@@ -30,6 +30,7 @@ use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
+use PinkCrab\Perique_Admin_Menu\Registrar\Page_Load_Action;
 
 class Registrar {
 
@@ -62,6 +63,8 @@ class Registrar {
 
 				// Register Enqueue hooks for page/group.
 				$this->enqueue_scripts( $hook, $page, $group );
+				// Register hook for pre-load page
+				$this->pre_load_hook( $hook, $page, $group );
 
 				break;
 
@@ -99,6 +102,9 @@ class Registrar {
 				// Register Enqueue hooks for page/group.
 				$this->enqueue_scripts( $hook, $page, $group );
 
+				// Register hook for pre-load page
+				$this->pre_load_hook( $hook, $page, $group );
+
 				break;
 			default:
 				do_action( Hooks::PAGE_REGISTRAR_SUB, $page, $parent_slug );
@@ -114,6 +120,18 @@ class Registrar {
 	 * @return void
 	 */
 	protected function enqueue_scripts( string $hook, Page $page, ?Abstract_Group $group = null ): void {
-		add_action( 'admin_enqueue_scripts', new Page_Enqueue( $hook, $page, $group ) );
+		add_action( 'admin_enqueue_scripts', new Page_Enqueue_Action( $hook, $page, $group ) );
+	}
+
+	/**
+	 * Adds the pre load actions for the current page.
+	 *
+	 * @param string $hook
+	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
+	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
+	 * @return void
+	 */
+	protected function pre_load_hook( string $hook, Page $page, ?Abstract_Group $group = null ): void {
+		add_action( 'load-' . $hook, new Page_Load_Action( $page, $group ) );
 	}
 }

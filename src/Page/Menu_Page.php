@@ -175,13 +175,25 @@ abstract class Menu_Page implements Page {
 	}
 
 	/**
-	 * Callback for enqueuing scripts and styles at a group level.
+	 * Callback for enqueuing scripts and styles at a page level.
 	 *
 	 * @param Page $page
 	 * @return void
 	 * @codeCoverageIgnore This can be tested as it does nothing and is extended only
 	 */
 	public function enqueue( Page $page ): void {
+		// Do nothing.
+		// Can be extended in any child class that extends.
+	}
+
+	/**
+	 * Callback for the pre-load of the page
+	 *
+	 * @param Page $page
+	 * @return void
+	 * @codeCoverageIgnore This can be tested as it does nothing and is extended only
+	 */
+	public function load( Page $page ): void {
 		// Do nothing.
 		// Can be extended in any child class that extends.
 	}

@@ -144,9 +144,21 @@ abstract class Abstract_Group {
 	 * @param Abstract_Group $group
 	 * @param Page $page
 	 * @return void
-	 * @codeCoverageIgnore This can be tested as it does nothing and is extended only
+	 * @codeCoverageIgnore This can't be tested as it does nothing and is extended only
 	 */
 	public function enqueue( Abstract_Group $group, Page $page ): void {
+		// Do nothing by default.
+	}
+
+	/**
+	 * Callback for triggering pre load actions for the groups page (at group level)
+	 *
+	 * @param Abstract_Group $group
+	 * @param Page $page
+	 * @return void
+	 * @codeCoverageIgnore This can't be tested as it does nothing and is extended only
+	 */
+	public function load( Abstract_Group $group, Page $page ): void {
 		// Do nothing by default.
 	}
 }

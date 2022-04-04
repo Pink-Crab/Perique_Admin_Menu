@@ -44,6 +44,9 @@ class Valid_Group extends Abstract_Group {
 	// Enqueue log.
 	public static $enqueue_log = array();
 
+	// Load log
+	public static $load_log = array();
+
 	protected $group_title = self::GROUP_TITLE;
 
 	protected $primary_page = self::PRIMARY_PAGE;
@@ -65,5 +68,17 @@ class Valid_Group extends Abstract_Group {
 	 */
 	public function enqueue( Abstract_Group $group, Page $page ): void {
 		self::$enqueue_log[] = array( $group, $page );
+	}
+
+	/**
+	 * Callback for triggering pre load actions for the groups page (at group level)
+	 *
+	 * @param Abstract_Group $group
+	 * @param Page $page
+	 * @return void
+	 * @codeCoverageIgnore This can't be tested as it does nothing and is extended only
+	 */
+	public function load( Abstract_Group $group, Page $page ): void {
+		self::$load_log[] = array( $group, $page );
 	}
 }
