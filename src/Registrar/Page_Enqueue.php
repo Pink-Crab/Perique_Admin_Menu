@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Class used to enqueue all the assets for a page
+ * Class used to enqueue all the assets for a page or group.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
