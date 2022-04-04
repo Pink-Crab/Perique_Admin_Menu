@@ -57,7 +57,7 @@ class Page_Middleware implements Registration_Middleware {
 	 * @return object
 	 */
 	public function process( $class ) {
-		// If we have a valid page.
+		// If we have a valid SUB page.
 		if (
 			is_a( $class, Page::class )
 			&& is_admin()
@@ -66,6 +66,19 @@ class Page_Middleware implements Registration_Middleware {
 			$this->add_to_loader(
 				function () use ( $class ) : void {
 					$this->dispatcher->register_subpage( $class, $class->parent_slug() );
+				}
+			);
+		}
+
+		// If we have a valid SINGLE/PARENT page.
+		if (
+			is_a( $class, Page::class )
+			&& is_admin()
+			&& is_null( $class->parent_slug() )
+		) {
+			$this->add_to_loader(
+				function () use ( $class ) : void {
+					$this->dispatcher->register_single_page( $class );
 				}
 			);
 		}

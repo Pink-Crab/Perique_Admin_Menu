@@ -77,7 +77,7 @@ class Test_Menu_Page extends WP_UnitTestCase {
 		$this->assertEquals( Valid_Primary_Page::PAGE_TITLE, $page->page_title() );
 	}
 
-	/** @testdox If a page title is not set, it should reutrn null if attempting to access */
+	/** @testdox If a page title is not set, it should return null if attempting to access */
 	public function test_get_page_title_null_if_unset(): void {
 		$page = new Invalid_Primary_Page();
 		$this->assertNull( $page->page_title() );
@@ -89,7 +89,7 @@ class Test_Menu_Page extends WP_UnitTestCase {
 		$this->assertEquals( Valid_Primary_Page::POSITION, $page->position() );
 	}
 
-	/** @testdox If a page title is not set, it should reutrn null if attempting to access */
+	/** @testdox If a page title is not set, it should return null if attempting to access */
 	public function test_get_position_null_if_unset(): void {
 		$page = new Invalid_Primary_Page();
 		$this->assertNull( $page->position() );

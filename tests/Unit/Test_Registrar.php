@@ -35,12 +35,12 @@ use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Primary_Page;
 
 class Test_Registrar extends WP_UnitTestCase {
 
-	/** @testdox Attempting to register a primary menu_page without a group, should result in an error. */
-	public function test_throws_exception_with_menu_primary_page_but_no_group() {
-		$this->expectException( TypeError::class );
-		$registrar = new Registrar();
-		$registrar->register_primary( new Valid_Primary_Page(), null );
-	}
+	// /** @testdox Attempting to register a primary menu_page without a group, should result in an error. */
+	// public function test_throws_exception_with_menu_primary_page_but_no_group() {
+	// 	$this->expectException( TypeError::class );
+	// 	$registrar = new Registrar();
+	// 	$registrar->register_primary( new Valid_Primary_Page(), null );
+	// }
 
 	/** @testdox When other types of primary page are passed to the registrar, an action should be fired to allow other extensions to register pages.*/
 	public function test_fires_primary_page_action_with_custom_page_typey(): void {
@@ -86,5 +86,6 @@ class Test_Registrar extends WP_UnitTestCase {
 		$registrar->register_subpage( $mock_page, 'parent_slug' );
 		$this->assertTrue( $action_called );
 	}
+
 
 }

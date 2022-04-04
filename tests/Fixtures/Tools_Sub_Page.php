@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Primary valid page.
+ * Sub page of the tool.php menu.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,19 +24,19 @@ declare(strict_types=1);
  * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
  */
 
-namespace PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group;
+namespace PinkCrab\Perique_Admin_Menu\Tests\Fixtures;
 
-use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 
-class Valid_Primary_Page extends Menu_Page {
+class Tools_Sub_Page extends Menu_Page {
 
 	// Helper constants
-	public const PAGE_SLUG  = 'valid_primary_page';
-	public const MENU_TITLE = 'Valid (Primary)';
-	public const PAGE_TITLE = 'Valid Primary Page Title';
-	public const POSITION   = 99999;
-	public const VIEW_DATA  = array( 'data' => 'Valid Primary Page Data' );
+	public const PAGE_SLUG  = 'tools_sub_page';
+	public const MENU_TITLE = 'Tools Sub';
+	public const PAGE_TITLE = 'Tools Sub Page';
+	public const PARENT_SLUG = 'foo_tools';
+	public const POSITION   = 1;
+	public const VIEW_DATA  = array( 'data' => 'Sub page of Tools' );
 
 	// Enqueue log.
 	public static $enqueue_log = array();
@@ -50,6 +50,13 @@ class Valid_Primary_Page extends Menu_Page {
 	 * @var string
 	 */
 	protected $page_slug = self::PAGE_SLUG;
+
+    /**
+     * Parent slug
+     * 
+     * @var string
+     */
+    protected $parent_slug = self::PARENT_SLUG;
 
 	/**
 	 * The menu title
@@ -78,7 +85,6 @@ class Valid_Primary_Page extends Menu_Page {
 	 * @var string
 	 */
 	protected $view_template = __DIR__ . '/view.php';
-	// protected $view_template =  '/view.php';
 
 	/**
 	 * The view data used by view.
@@ -86,24 +92,4 @@ class Valid_Primary_Page extends Menu_Page {
 	 * @var array{data:string}
 	 */
 	protected $view_data = self::VIEW_DATA;
-
-	/**
-	 * Callback for enqueuing scripts and styles at a group level.
-	 *
-	 * @param Page $page
-	 * @return void
-	 */
-	public function enqueue( Page $page ): void {
-		self::$enqueue_log[] = $page;
-	}
-
-	/**
-	 * Callback for loading the page
-	 *
-	 * @param Page $page
-	 * @return void
-	 */
-	public function load( Page $page ): void {
-		self::$load_log[] = $page;
-	}
 }

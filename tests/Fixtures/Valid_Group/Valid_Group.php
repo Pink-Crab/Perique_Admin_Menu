@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group;
 
+use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Page;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Primary_Page;
@@ -40,6 +41,12 @@ class Valid_Group extends Abstract_Group {
 	public const ICON         = 'dashicons-admin-generic';
 	public const POSITION     = 65;
 
+	// Enqueue log.
+	public static $enqueue_log = array();
+
+	// Load log
+	public static $load_log = array();
+
 	protected $group_title = self::GROUP_TITLE;
 
 	protected $primary_page = self::PRIMARY_PAGE;
@@ -51,4 +58,27 @@ class Valid_Group extends Abstract_Group {
 	protected $icon = self::ICON;
 
 	protected $position = self::POSITION;
+
+	/**
+	 * Callback for enqueuing scripts and styles at a group level.
+	 *
+	 * @param Abstract_Group $group
+	 * @param Page $page
+	 * @return void
+	 */
+	public function enqueue( Abstract_Group $group, Page $page ): void {
+		self::$enqueue_log[] = array( $group, $page );
+	}
+
+	/**
+	 * Callback for triggering pre load actions for the groups page (at group level)
+	 *
+	 * @param Abstract_Group $group
+	 * @param Page $page
+	 * @return void
+	 * @codeCoverageIgnore This can't be tested as it does nothing and is extended only
+	 */
+	public function load( Abstract_Group $group, Page $page ): void {
+		self::$load_log[] = array( $group, $page );
+	}
 }

@@ -160,11 +160,11 @@ abstract class Menu_Page implements Page {
 	 * @throws Page_Exception code 201 if template not defined.
 	 */
 	public function render_view(): callable {
-		if ( $this->view === null ) {
+		if ( null === $this->view ) {
 			throw Page_Exception::view_not_set( $this );
 		}
 
-		if ( $this->view_template === null ) {
+		if ( null === $this->view_template ) {
 			throw Page_Exception::undefined_property( 'view_template', $this );
 		}
 
@@ -172,6 +172,30 @@ abstract class Menu_Page implements Page {
 			$this->view->render( $this->view_template, $this->view_data );
 		};
 
+	}
+
+	/**
+	 * Callback for enqueuing scripts and styles at a page level.
+	 *
+	 * @param Page $page
+	 * @return void
+	 * @codeCoverageIgnore This can be tested as it does nothing and is extended only
+	 */
+	public function enqueue( Page $page ): void {
+		// Do nothing.
+		// Can be extended in any child class that extends.
+	}
+
+	/**
+	 * Callback for the pre-load of the page
+	 *
+	 * @param Page $page
+	 * @return void
+	 * @codeCoverageIgnore This can be tested as it does nothing and is extended only
+	 */
+	public function load( Page $page ): void {
+		// Do nothing.
+		// Can be extended in any child class that extends.
 	}
 
 
