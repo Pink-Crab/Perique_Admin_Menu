@@ -76,7 +76,7 @@ class Page_Dispatcher {
 
 			// Register all pages and attempt to set primary page name in menu.
 			foreach ( $this->get_pages( $group ) as $page ) {
-				$this->register_subpage( $page, $this->get_primary_page( $group )->slug() );
+				$this->register_subpage( $page, $this->get_primary_page( $group )->slug(), $group );
 			}
 			$this->set_primary_page_details( $group );
 
@@ -215,9 +215,10 @@ class Page_Dispatcher {
 	 *
 	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
 	 * @param string $parent_slug
+	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
 	 */
-	public function register_subpage( Page $page, string $parent_slug ): void {
+	public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
 		// If user cant access the page, bail before attemptin to register.
 		if ( ! current_user_can( $page->capability() ) ) {
 			return;
@@ -229,7 +230,7 @@ class Page_Dispatcher {
 		}
 
 		try {
-			$this->registrar->register_subpage( $page, $parent_slug );
+			$this->registrar->register_subpage( $page, $parent_slug, $group );
 		} catch ( \Throwable $th ) {
 			$this->admin_exception_notice( $page, $th );
 		}

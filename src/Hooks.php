@@ -40,4 +40,9 @@ class Hooks {
 	 * Register other sub pages.
 	 */
 	public const PAGE_REGISTRAR_SUB = self::HOOK_PREFIX . 'page_registrar_sub';
+
+	/**
+	 * Hook for action triggered after each in a group is registered
+	 */
+	public const ENQUEUE_GROUP = self::HOOK_PREFIX . 'enqueue_group';
 }

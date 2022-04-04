@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group;
 
+use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 
 class Valid_Page extends Menu_Page {
@@ -36,6 +37,9 @@ class Valid_Page extends Menu_Page {
 	public const PAGE_TITLE = 'Valid Page Title';
 	public const POSITION   = 1;
 	public const VIEW_DATA  = array( 'data' => 'Valid Page Data' );
+
+	// Enqueue log.
+	public static $enqueue_log = array();
 
 	/**
 	 * The pages menu slug.
@@ -78,4 +82,14 @@ class Valid_Page extends Menu_Page {
 	 * @var array{data:string}
 	 */
 	protected $view_data = self::VIEW_DATA;
+
+	/**
+	 * Callback for enqueuing scripts and styles at a group level.
+	 *
+	 * @param Page $page
+	 * @return void
+	 */
+	public function enqueue( Page $page ): void {
+		self::$enqueue_log[] = $page;
+	}
 }

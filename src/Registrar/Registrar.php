@@ -37,12 +37,11 @@ class Registrar {
 	 * Used to register a primary page for a group.
 	 *
 	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
-	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group $group
+	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
-	 * @throws Page_Exception (Code 204)
 	 * @throws TypeError
 	 */
-	public function register_primary( Page $page, Abstract_Group $group = null ): void {
+	public function register_primary( Page $page, ?Abstract_Group $group = null ): void {
 
 		switch ( get_parent_class( $page ) ) {
 			// For menu pages
@@ -51,7 +50,7 @@ class Registrar {
 					throw new TypeError( 'Valid group must be passed to create Menu_Page' );
 				}
 
-				$result = add_menu_page(
+				$hook = add_menu_page(
 					$page->page_title() ?? '',
 					$group->get_group_title(),
 					$group->get_capability(),
@@ -61,10 +60,9 @@ class Registrar {
 					(int) $group->get_position()
 				);
 
-				// Call failed action for logging etc.
-				if ( ! is_string( $result ) ) {
-					throw Page_Exception::failed_to_register_page( $page );
-				}
+				// Register Enqueue hooks for page/group.
+				$this->enqueue_scripts( $hook, $page, $group );
+
 				break;
 
 			default:
@@ -77,10 +75,10 @@ class Registrar {
 	 *
 	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
 	 * @param string $parent_slug
+	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
-	 * @throws Page_Exception (Code 204)
 	 */
-	public function register_subpage( Page $page, string $parent_slug ): void {
+	public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
 		switch ( get_parent_class( $page ) ) {
 			case Menu_Page::class:
 				$hook = add_submenu_page(
@@ -93,12 +91,29 @@ class Registrar {
 					$page->position()
 				);
 
+				// If the sub page cant be registered because of permissions. Then we need to register the page as a primary page.
 				if ( ! is_string( $hook ) ) {
-					throw Page_Exception::failed_to_register_page( $page );
+					return;
 				}
+
+				// Register Enqueue hooks for page/group.
+				$this->enqueue_scripts( $hook, $page, $group );
+
 				break;
 			default:
 				do_action( Hooks::PAGE_REGISTRAR_SUB, $page, $parent_slug );
 		}
+	}
+
+	/**
+	 * Adds enqueue admin scripts based on the current page hook.
+	 *
+	 * @param string $hook
+	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
+	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
+	 * @return void
+	 */
+	protected function enqueue_scripts( string $hook, Page $page, ?Abstract_Group $group = null ): void {
+		add_action( 'admin_enqueue_scripts', new Page_Enqueue( $hook, $page, $group ) );
 	}
 }

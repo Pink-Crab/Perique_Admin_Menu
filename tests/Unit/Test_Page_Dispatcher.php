@@ -45,19 +45,18 @@ use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Primary_Page;
 
 class Test_Page_Dispatcher extends WP_UnitTestCase {
 
-	public function get_mock_dispatcher(): Page_Dispatcher
-	{
-		$di            = $this->createMock( DI_Container::class );
-		$view           = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+	public function get_mock_dispatcher(): Page_Dispatcher {
+		$di        = $this->createMock( DI_Container::class );
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
 		$registrar = $this->createMock( Registrar::class );
 
 		return new Page_Dispatcher( $di, $view, $registrar );
 	}
-	
+
 	/** @testdox When creating an instance of the group registrar, all used interal  */
 	public function test_populates_internal_state(): void {
-		$di            = $this->createMock( DI_Container::class );
-		$view           = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$di        = $this->createMock( DI_Container::class );
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
 		$registrar = $this->createMock( Registrar::class );
 
 		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
@@ -67,23 +66,21 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 		$this->assertSame( $registrar, Objects::get_property( $dispatcher, 'registrar' ) );
 	}
 
-	public function test_admin_exception(): void
-	{
+	public function test_admin_exception(): void {
 		$dispatcher = $this->get_mock_dispatcher();
-		
-		$group = new Valid_Group();
-		$exception = new Exception('TEST EXCEPTION');
 
-		$this->expectOutputRegex('/PinkCrab\\\Perique_Admin_Menu\\\Tests\\\Fixtures\\\Valid_Group\\\Valid_Group/');
-		
-		$dispatcher->admin_exception_notice($group, $exception);
-		\do_action('admin_notices');
+		$group     = new Valid_Group();
+		$exception = new Exception( 'TEST EXCEPTION' );
+
+		$this->expectOutputRegex( '/PinkCrab\\\Perique_Admin_Menu\\\Tests\\\Fixtures\\\Valid_Group\\\Valid_Group/' );
+
+		$dispatcher->admin_exception_notice( $group, $exception );
+		\do_action( 'admin_notices' );
 	}
 
 
-	public function test_get_primary_page(): void
-	{
-		$di            = $this->createMock( DI_Container::class );
+	public function test_get_primary_page(): void {
+		$di = $this->createMock( DI_Container::class );
 		$di->method( 'create' )->will(
 			$this->returnCallback(
 				function( $page ) {
@@ -91,19 +88,18 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 				}
 			)
 		);
-		$view           = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
-		$registrar = $this->createMock( Registrar::class );
+		$view       = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar  = $this->createMock( Registrar::class );
 		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
-		$group = new Valid_Group();
-		$page = Objects::invoke_method($dispatcher, 'get_primary_page', [$group]);
+		$group      = new Valid_Group();
+		$page       = Objects::invoke_method( $dispatcher, 'get_primary_page', array( $group ) );
 
-		$this->assertInstanceOf(Page::class, $page);
-		$this->assertInstanceOf(View::class, Objects::get_property($page, 'view'));
+		$this->assertInstanceOf( Page::class, $page );
+		$this->assertInstanceOf( View::class, Objects::get_property( $page, 'view' ) );
 	}
 
-	public function test_exception_thrown_if_invalid_primary_page_type()
-	{
-		$di            = $this->createMock( DI_Container::class );
+	public function test_exception_thrown_if_invalid_primary_page_type() {
+		$di = $this->createMock( DI_Container::class );
 		$di->method( 'create' )->will(
 			$this->returnCallback(
 				function( $page ) {
@@ -111,37 +107,37 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 				}
 			)
 		);
-		$view           = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
-		$registrar = $this->createMock( Registrar::class );
+		$view       = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar  = $this->createMock( Registrar::class );
 		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
-		$group = new Valid_Group();
-		
-		$this->expectException(Page_Exception::class);
-		$page = Objects::invoke_method($dispatcher, 'get_primary_page', [$group]);
+		$group      = new Valid_Group();
+
+		$this->expectException( Page_Exception::class );
+		$page = Objects::invoke_method( $dispatcher, 'get_primary_page', array( $group ) );
 	}
 
 	/** @testdoc The dispatcher should be able to create instance of all (non primary) pages defined within a group. */
-	public function test_get_pages(): void
-	{
-		$di            = $this->createMock( DI_Container::class );
-		$di->method( 'create' )->will($this->onConsecutiveCalls(
-			new Valid_Page()
-		));
-		$view           = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
-		$registrar = $this->createMock( Registrar::class );
+	public function test_get_pages(): void {
+		$di = $this->createMock( DI_Container::class );
+		$di->method( 'create' )->will(
+			$this->onConsecutiveCalls(
+				new Valid_Page()
+			)
+		);
+		$view       = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar  = $this->createMock( Registrar::class );
 		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
-		
+
 		$group = new Valid_Group();
-		$pages = Objects::invoke_method($dispatcher, 'get_pages', [$group]);
-		
-		$this->assertCount(1, $pages);
-		$this->assertEquals(Valid_Page::class, get_class(end($pages)));
+		$pages = Objects::invoke_method( $dispatcher, 'get_pages', array( $group ) );
+
+		$this->assertCount( 1, $pages );
+		$this->assertEquals( Valid_Page::class, get_class( end( $pages ) ) );
 	}
 
 	/** @testdox The dispatcher should throw an error if a group has a page defined which does not implement the Page interface. */
-	public function test_exception_thrown_if_group_contains_non_Page_page()
-	{
-		$di            = $this->createMock( DI_Container::class );
+	public function test_exception_thrown_if_group_contains_non_Page_page() {
+		$di = $this->createMock( DI_Container::class );
 		$di->method( 'create' )->will(
 			$this->returnCallback(
 				function( $page ) {
@@ -149,15 +145,15 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 				}
 			)
 		);
-		$view           = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
-		$registrar = $this->createMock( Registrar::class );
+		$view       = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar  = $this->createMock( Registrar::class );
 		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
-		
+
 		$group = new Valid_Group();
-		
-		$this->expectException(Page_Exception::class);
-		$this->expectExceptionCode(202);
-		
-		$page = Objects::invoke_method($dispatcher, 'get_pages', [$group]);
+
+		$this->expectException( Page_Exception::class );
+		$this->expectExceptionCode( 202 );
+
+		$page = Objects::invoke_method( $dispatcher, 'get_pages', array( $group ) );
 	}
 }
