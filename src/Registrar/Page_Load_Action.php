@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Base Page interface
+ * Class used to trigger preloaded actions on all pages (and groups.)
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,48 +22,44 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Admin_Menu
  */
 
-namespace PinkCrab\Perique_Admin_Menu\Page;
+namespace PinkCrab\Perique_Admin_Menu\Registrar;
 
-interface Page {
+use PinkCrab\Perique_Admin_Menu\Page\Page;
+use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
+
+class Page_Load_Action {
+
 
 	/**
-	 * @return string|null
+	 * The current page being enqueued
+	 *
+	 * @var Page
 	 */
-	public function parent_slug(): ?string;
+	protected $page;
+
 	/**
-	 * @return string
+	 * The option group being enqueued
+	 *
+	 * @var Abstract_Group|null
 	 */
-	public function slug(): string;
+	protected $group;
+
+	public function __construct( Page $page, ?Abstract_Group $group = null ) {
+		$this->page  = $page;
+		$this->group = $group;
+	}
+
 	/**
-	 * @return string
-	 */
-	public function menu_title(): string;
-	/**
-	 * @return string|null
-	 */
-	public function page_title(): ?string;
-	/**
-	 * @return int|null
-	 */
-	public function position(): ?int;
-	/**
-	 * @return string
-	 */
-	public function capability(): string;
-	/**
-	 * @return callable
-	 */
-	public function render_view(): callable;
-	/**
-	 * @param Page $page
+	 * The callback method for the class.
+	 *
 	 * @return void
 	 */
-	public function enqueue( Page $page ): void;
+	public function __invoke() {
+		// Register hooks for the group if part of group
+		if ( null !== $this->group ) {
+			$this->group->load( $this->group, $this->page );
+		}
 
-	/**
-	 * @param Page $page
-	 * @return void
-	 */
-	public function load( Page $page ): void;
-
+		$this->page->load( $this->page );
+	}
 }

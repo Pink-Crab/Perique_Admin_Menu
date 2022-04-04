@@ -27,7 +27,7 @@ namespace PinkCrab\Perique_Admin_Menu\Registrar;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 
-class Page_Enqueue {
+class Page_Enqueue_Action {
 
 	/**
 	 * The hook being enqueued

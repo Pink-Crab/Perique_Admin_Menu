@@ -41,6 +41,9 @@ class Valid_Primary_Page extends Menu_Page {
 	// Enqueue log.
 	public static $enqueue_log = array();
 
+	// Load Log.
+	public static $load_log = array();
+
 	/**
 	 * The pages menu slug.
 	 *
@@ -92,5 +95,15 @@ class Valid_Primary_Page extends Menu_Page {
 	 */
 	public function enqueue( Page $page ): void {
 		self::$enqueue_log[] = $page;
+	}
+
+	/**
+	 * Callback for loading the page
+	 *
+	 * @param Page $page
+	 * @return void
+	 */
+	public function load( Page $page ): void {
+		self::$load_log[] = $page;
 	}
 }
