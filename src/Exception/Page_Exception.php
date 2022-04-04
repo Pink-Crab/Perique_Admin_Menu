@@ -83,37 +83,4 @@ class Page_Exception extends Exception {
 		);
 	}
 
-	/**
-	 * Thrown when attemping to register an ACF page, when ACF is not currently active/installed.
-	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
-	 * @return self
-	 * @code 202
-	 */
-	public static function acf_not_active( Page $page ): self {
-		return new self(
-			sprintf(
-				'%s can not be registered as ACF is not currently active.',
-				get_class( $page )
-			),
-			203
-		);
-	}
-
-	/**
-	 * Thrown when failed to create a page
-	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
-	 * @return self
-	 * @code 204
-	 */
-	public static function failed_to_register_page( Page $page ) {
-		return new self(
-			sprintf(
-				'%s could not be registered',
-				get_class( $page )
-			),
-			204
-		);
-	}
 }

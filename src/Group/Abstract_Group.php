@@ -25,6 +25,10 @@ declare(strict_types=1);
 namespace PinkCrab\Perique_Admin_Menu\Group;
 
 use PinkCrab\Perique_Admin_Menu\Exception\Group_Exception;
+use PinkCrab\Perique_Admin_Menu\Page\Page;
+
+use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
+
 
 
 abstract class Abstract_Group {
@@ -135,11 +139,14 @@ abstract class Abstract_Group {
 	}
 
 	/**
-	 * The enqueue script function for all pages in the group.
+	 * Callback for enqueuing scripts and styles at a group level.
 	 *
 	 * @param Abstract_Group $group
+	 * @param Page $page
 	 * @return void
+	 * @codeCoverageIgnore This can be tested as it does nothing and is extended only
 	 */
-	public function enqueue( Abstract_Group $group ): void {
+	public function enqueue( Abstract_Group $group, Page $page ): void {
+		// Do nothing by default.
 	}
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Base Page interface
+ * Class used to enqueue all the assets for a page
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,43 +22,55 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Admin_Menu
  */
 
-namespace PinkCrab\Perique_Admin_Menu\Page;
+namespace PinkCrab\Perique_Admin_Menu\Registrar;
 
-interface Page {
+use PinkCrab\Perique_Admin_Menu\Page\Page;
+use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
+
+class Page_Enqueue {
 
 	/**
-	 * @return string|null
+	 * The hook being enqueued
+	 *
+	 * @var string
 	 */
-	public function parent_slug(): ?string;
+	protected $hook;
+
 	/**
-	 * @return string
+	 * The current page being enqueued
+	 *
+	 * @var Page
 	 */
-	public function slug(): string;
+	protected $page;
+
 	/**
-	 * @return string
+	 * The option group being enqueued
+	 *
+	 * @var Abstract_Group|null
 	 */
-	public function menu_title(): string;
+	protected $group;
+
+	public function __construct( string $hook, Page $page, ?Abstract_Group $group = null ) {
+		$this->hook  = $hook;
+		$this->page  = $page;
+		$this->group = $group;
+	}
+
 	/**
-	 * @return string|null
-	 */
-	public function page_title(): ?string;
-	/**
-	 * @return int|null
-	 */
-	public function position(): ?int;
-	/**
-	 * @return string
-	 */
-	public function capability(): string;
-	/**
-	 * @return callable
-	 */
-	public function render_view(): callable;
-	/**
-	 * @param Page $page
+	 * The callback method for the class.
+	 *
+	 * @param string $page_hook
 	 * @return void
-	 * @codeCoverageIgnore This can be tested as it does nothing and is extended only
 	 */
-	public function enqueue( Page $page ): void;
+	public function __invoke( string $page_hook ) {
+		if ( $page_hook === $this->hook ) {
 
+			// Register hooks for the group if part of group
+			if ( null !== $this->group ) {
+				$this->group->enqueue( $this->group, $this->page );
+			}
+
+			$this->page->enqueue( $this->page );
+		}
+	}
 }
