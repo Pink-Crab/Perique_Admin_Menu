@@ -37,6 +37,7 @@ use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique\Interfaces\DI_Container;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 use PinkCrab\Perique_Admin_Menu\Registrar\Registrar;
+use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
 use PinkCrab\Perique_Admin_Menu\Registrar\Page_Dispatcher;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Page;
@@ -156,4 +157,89 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 
 		$page = Objects::invoke_method( $dispatcher, 'get_pages', array( $group ) );
 	}
+
+	/** @testdox The dispatcher should skip registering a chile page, if current user doesn't have the capabilities */
+	public function test_cant_register_sub_page_with_insufficient_permissions(): void {
+		// Mock the capability to something that no user has.
+		$page = new Valid_Page();
+		Objects::set_property( $page, 'capability', 'some_capability' );
+
+		// Mock out the dispatcher.
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = $this->createMock( Registrar::class );
+		// Ensure its not called.
+		$called = false;
+		$registrar->method( 'register_subpage' )->will(
+			$this->returnCallback(
+				function( $page ) use ( &$called ) {
+					$called = true;
+					return;
+				}
+			)
+		);
+		$di         = $this->createMock( DI_Container::class );
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+
+		// Attempt to register an impossible page, should return before registering.
+		$dispatcher->register_subpage( $page, 'parent' );
+
+		// Ensure the page was not registered.
+		$this->assertFalse( $called );
+	}
+
+	/** @testdox When registering a sub page, any exception thrown should be caught and shown as an admin error. */
+	public function test_generates_admin_message_if_exception_thrown_registering_sub_page(): void {
+		$page = new Valid_Page();
+
+		// Mock out the dispatcher.
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = new class() extends Registrar{
+			public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
+				throw new \Exception( 'ERROR WITH SUBPAGE' );
+			}
+		};
+
+		$di         = $this->createMock( DI_Container::class );
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+
+		// Mock admin user.
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+
+		$dispatcher->register_subpage( $page, 'parent', null );
+
+		// Check errors generated as notice
+		$this->expectOutputRegex( '/ERROR WITH SUBPAGE/' );
+		\do_action( 'admin_notices' );
+	}
+
+	/** @testdox When registering a page, any exception thrown should be caught and shown as an admin error. */
+	public function test_generates_admin_message_if_exception_thrown_registering_page(): void {
+		$page = new Valid_Primary_Page();
+
+		// Mock out the dispatcher.
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = new class() extends Registrar{
+			// Mock the register primary to throw an exception.
+			public function register_primary( Page $page, ?Abstract_Group $group = null ): void {
+				throw new \Exception( 'ERROR WITH PAGE' );
+			}
+		};
+
+		$di         = $this->createMock( DI_Container::class );
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+
+		// Mock admin user.
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+
+		$dispatcher->register_single_page( $page, 'parent', null );
+
+		// Check errors generated as notice
+		$this->expectOutputRegex( '/ERROR WITH PAGE/' );
+		\do_action( 'admin_notices' );
+	}
+
+
+
 }
