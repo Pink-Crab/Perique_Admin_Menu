@@ -49,7 +49,7 @@ These must all be declared as `protected` and can either be defined directly or 
 
 > ### protected string $group_title  
 > @var string  
-> @throws Group_Exception (code 252) If not defined.
+> @throws Group_Exception (code 252) If not defined and fails validation.
 
 Define the title of the Group.
 ```php
@@ -85,7 +85,7 @@ class My_Group extends Abstract_Group{
 
 > ### protected string $primary_page  
 > @var string / class-string   
-> @throws Group_Exception (code 252) If not defined.
+> @throws Group_Exception (code 252) If not defined and fails validation.
 
 The fully namespaced class name for the primary page (this must also be included in pages)
 ```php
@@ -94,6 +94,22 @@ class My_Group extends Abstract_Group{
 }
 ```
 ---
+
+> ### protected array $pages  
+> @var string[] | class-string[]   
+
+An array of fully namespaced class names, which extend the Menu_Page object
+```php
+class My_Group extends Abstract_Group{
+    protected array $pages = [
+        'Acme\My_Plugin\Page\Primary_Page',
+        Acme\My_Plugin\Page\Child_Page::class
+    ];
+}
+```
+---
+
+
 
 # License
 
