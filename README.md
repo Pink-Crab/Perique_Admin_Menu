@@ -196,11 +196,104 @@ This should not be entered for parent pages, all child pages will be set based o
 
 If being created as a stand alone child pate, please enter the parent slug as per `add_submenu_page()`
 ```php
-class My_Group extends Abstract_Group{
+class My_Page extends Menu_Page {
     protected ?string $parent_slug = 'acme_page_parent';
 }
 ```
 ---
+
+> ### protected string|null $parent_slug  
+> @var string  
+> @optional If registered as part of a group, the parent will be set based on the Groups parent page.  
+
+This should not be entered for parent pages, all child pages will be set based on the groups primary page (will overwrite any value defined). 
+
+If being created as a stand alone child pate, please enter the parent slug as per `add_submenu_page()`
+```php
+class My_Page extends Menu_Page {
+    protected ?string $parent_slug = 'acme_page_parent';
+}
+```
+---
+
+> ### protected string $page_slug  
+> @var string  
+> @throws Page_Exception (code 200) If not defined and fails validation. 
+
+This is the pages slug, will be used as the group slug if defined as the parent page.
+
+```php
+class My_Page extends Menu_Page {
+    protected string $page_slug = 'acme_pages';
+}
+```
+---
+
+> ### protected string $menu_title  
+> @var string  
+> @throws Page_Exception (code 200) If not defined and fails validation. 
+
+This is used as the pages, sub menu title. 
+```php
+class My_Page extends Menu_Page {
+    protected string $menu_title = 'Parent Page';
+}
+```
+---
+
+> ### protected string $page_title  
+> @var string  
+
+This is used as the pages title, is only automatically displayed if using the WP Settings API.
+```php
+class My_Page extends Menu_Page {
+    protected string $page_title = 'Acme Parent Page';
+}
+```
+---
+
+> ### protected int|null $position  
+> @var int|null  
+
+An optional page position, this is only used in context of the submenu. Use group for main menu placements.
+```php
+class My_Page extends Menu_Page {
+    protected ?int $position = 12;
+}
+```
+---
+
+> ### protected string $capability  
+> @var string  
+> @optional will default to 'manage_options' if not defined.
+
+This sets the min user capabilities required to access the page. If not defined will default to 'manage_options'
+```php
+class My_Page extends Menu_Page {
+    protected string $capability = 'edit_post';
+}
+```
+---
+
+> **There are 2 ways to render the view**
+
+#### Render View with Template File
+You can render your template using [Perique's View service](https://perique.info/core/App/view). To use `View`, you will need to define a template path and any optional data to pass to the view.
+
+
+> ### protected string $capability  
+> @var string  
+> @optional will default to 'manage_options' if not defined.
+
+This sets the min user capabilities required to access the page. If not defined will default to 'manage_options'
+```php
+class My_Page extends Menu_Page {
+    protected string $capability = 'edit_post';
+}
+```
+---
+
+
 
 # License
 
