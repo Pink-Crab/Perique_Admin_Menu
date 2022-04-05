@@ -54,11 +54,46 @@ These must all be declared as `protected` and can either be defined directly or 
 Define the title of the Group.
 ```php
 class My_Group extends Abstract_Group{
-    protected string $group_title = 'My Page Group'
+    protected string $group_title = 'My Page Group';
 }
 ```
+---
 
+> ### protected string $capability  
+> @var string  
+> @default 'manage_options' if not defined
 
+Define the min capabilities a user must have for the group to be displayed.
+```php
+class My_Group extends Abstract_Group{
+    protected string $capability = 'edit_posts';
+}
+```
+---
+
+> ### protected string $icon  
+> @var string  
+> @default 'dashicons-admin-generic' if not defined
+
+Define which dash icon or img url to use as the group icon.
+```php
+class My_Group extends Abstract_Group{
+    protected string $icon = 'edit_posts';
+}
+```
+---
+
+> ### protected string $primary_page  
+> @var string / class-string   
+> @throws Group_Exception (code 252) If not defined.
+
+The fully namespaced class name for the primary page (this must also be included in pages)
+```php
+class My_Group extends Abstract_Group{
+    protected string $primary_page = 'Acme\\My_Plugin\\Page\\Primary_Page';
+}
+```
+---
 
 # License
 
