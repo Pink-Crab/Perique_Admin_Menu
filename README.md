@@ -12,14 +12,14 @@ A module for the Perique Plugin Framework, for rendering and processing Admin Me
 
 
 
-## Why?
+# Why?
 WordPress admin pages can be added with a simple function, but this can easily lead into messy structural code with includes for templates and the inevitable mixing of logic and presentation in templates.
 
 The Admin Menu module gives full access to Perique DI Container, for more separation of logic and presentation, with the added advantage of all your services being easy to test and reason with.
  
 **Requires [Perique](https://github.com/Pink-Crab/Perique-Framework)** - for more details please visit our docs. https://perique.info
 
-## Setup
+# Setup
 
 Include the module using composer (via CLI)
 ```bash
@@ -35,17 +35,21 @@ $app = ( new PinkCrab\Perique\Application\App_Factory() )
 ```
 Once the middleware has been included, we can use Page & Group models as part of the usual [Registration](https://perique.info/core/Registration/) process
 
-## Groups
+# Groups
 
+Admin_Menu allows for the defining of Groups, compared to the vanilla `add_menu_page()` provided by WordPress. Using groups allows for custom **Group Titles** separate of the main page. This allows for the dynamic shifting of pages based on any conditions (user role, subscriptions etc), to alter which pages are added or not and keeping a unified appearance.
 
+To define a group, there are a few properties which must be defined and a few methods which can be used to share assets and functionality between all pages within the group.
 
-## License
+## Methods
 
-### MIT License
+# License
+
+## MIT License
 
 http://www.opensource.org/licenses/mit-license.html 
 
-## Change Log ##
+# Change Log 
 * 0.2.0 - Re introduced the `register()` and `load()` methods for both Groups and Pages.
 * 0.1.2 - Fixed hardcoded primary page slug in Page_Dispatcher, updated dev dependencies
 * 0.1.1 - Bumped version for Collection
