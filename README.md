@@ -47,7 +47,9 @@ To define a group, there are a few properties which must be defined and a few me
 
 These must all be declared as `protected` and can either be defined directly or via the constructor.
 
-> ### protected string $group_title
+> ### protected string $group_title  
+> @var string  
+> @throws Group_Exception (code 252) If not defined.
 
 Define the title of the Group.
 ```php
