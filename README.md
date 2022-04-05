@@ -316,11 +316,55 @@ class My_Page extends Menu_Page {
 
 ---
 
-#### Render View with a function [Read More](#public-function-render_view-callable)
 
 ## Page Methods
 
 These must all be declared as `public` and are optional.
+
+> ### public function enqueue( Page $page ): void 
+> @param Page $page  
+
+This allows for the enqueueing of Scripts and Styles using `wp_enqueue_script()`, `wp_enqueue_style()` or [PinkCrab - Enqueue](https://github.com/Pink-Crab/Enqueue). To whatever page this is declared as.
+
+```php
+class My_Page extends Menu_Page {
+    public function enqueue( Page $page ): void {
+        wp_enqueue_script( 
+            'page_script', 
+            'https://www.acme.com/wp-content/plugins/acme/assets/page-script.js', 
+            array( 'jquery' ),
+            '1.2.4',
+            true
+        );
+    }
+}
+```
+> Please note this is fired after the [Groups enqueue()](#public-function-enqueue-abstract_group-group-page-page--void) method
+
+---
+
+> ### public function load( Page $page ): void 
+> @param Page $page  
+
+This allows for the handling for form submissions or other checks before the page is loaded.
+
+```php
+class My_Page extends Menu_Page {
+    public function load( Page $page ): void {
+        // If data has expired in transient, refresh.
+        $from_transient = get_transient('something');
+        if(false === $from_transient){
+            $data = do_something();
+            update_transient('something', $data, 12 * HOURS_IN_SECONDS);
+        }
+    }
+}
+```
+
+> Please note this is fired after the [Groups load()](#public-function-load-abstract_group-group-page-page--void) method
+
+---
+#### Render View with a function [Read More](#public-function-render_view-callable)
 
 > ### public function render_view(): callable 
 > @return callable  
@@ -334,6 +378,10 @@ class My_Page extends Menu_Page {
 }
 ```
 ---
+
+# Example
+
+There is a basic example of how to use this Module as part of a plugin, please see https://github.com/gin0115/Perique-Menu-Page-Example for more details.
 
 # License
 
