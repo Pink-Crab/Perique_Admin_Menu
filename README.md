@@ -17,8 +17,13 @@ WordPress admin pages can be added with a simple function, but this can easily l
 
 The Admin Menu module gives full access to Perique DI Container, for more separation of logic and presentation, with the added advantage of all your services being easy to test and reason with.
  
-**Requires [Perique](https://github.com/Pink-Crab/Perique-Framework)** for more details please visit our docs. https://perique.info
+**Requires [Perique](https://github.com/Pink-Crab/Perique-Framework)** - for more details please visit our docs. https://perique.info
 
+## Setup
+
+```bash
+$ composer require pinkcrab/perique-admin-menu
+```
 
 ## License
 
