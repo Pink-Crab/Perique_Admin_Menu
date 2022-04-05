@@ -389,6 +389,14 @@ There is a basic example of how to use this Module as part of a plugin, please s
 
 http://www.opensource.org/licenses/mit-license.html 
 
+# Contributions
+
+If you would like to contribute to this or any other Perique module, please feel free to submit a PR with your changes. 
+
+All code must be supplied with matching tests and must pass PHPUNIT, PHPStan and PHPCS checks and not see a large drop in coverage.
+
+See composer.json for details on the test and linting commands. `composer all` is the most important.
+
 # Change Log 
 * 0.2.0 - Re introduced the `register()` and `load()` methods for both Groups and Pages.
 * 0.1.2 - Fixed hardcoded primary page slug in Page_Dispatcher, updated dev dependencies
