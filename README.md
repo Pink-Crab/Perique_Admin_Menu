@@ -180,7 +180,27 @@ Pages can either be added as part of a Group or standalone (as Main or Sub pages
 
 To define a page, there are a few properties which must be defined and a few methods which can be used to enqueue scripts/style or trigger actions before the page is rendered.
 
-> All pages must extend from `PinkCrab\Perique_Admin_Menu\Page\Abstract_Page`
+> All pages must extend from `PinkCrab\Perique_Admin_Menu\Page\Menu_Page`
+
+## Page Properties
+
+These must all be declared as `protected` and can either be defined directly or via the constructor.
+
+> When used in context with a group, various values can be omitted and these will be populated by the `Group`s values.
+
+> ### protected string|null $parent_slug  
+> @var string  
+> @optional If registered as part of a group, the parent will be set based on the Groups parent page.  
+
+This should not be entered for parent pages, all child pages will be set based on the groups primary page (will overwrite any value defined). 
+
+If being created as a stand alone child pate, please enter the parent slug as per `add_submenu_page()`
+```php
+class My_Group extends Abstract_Group{
+    protected ?string $parent_slug = 'acme_page_parent';
+}
+```
+---
 
 # License
 
