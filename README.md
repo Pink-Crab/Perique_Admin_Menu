@@ -124,6 +124,30 @@ class My_Group extends Abstract_Group{
 ```
 ---
 
+## Group Methods
+
+These must all be declared as `public` and are optional.
+
+> ### public function enqueue( Abstract_Group $group, Page $page ): void 
+> @param Abstract_Group $group
+> @param Page $page  
+
+This allows for the enqueueing of Scripts and Styles using `wp_enqueue_script()`, `wp_enqueue_style()` or [PinkCrab - Enqueue](https://github.com/Pink-Crab/Enqueue). Any scripts of styles defined here, will be applied to every page registered in the group.
+
+```php
+class My_Group extends Abstract_Group{
+    public function enqueue( Abstract_Group $group, Page $page ): void {
+        wp_enqueue_script( 
+            'acme_script', 
+            'https://www.acme.com/wp-content/plugins/acme/assets/script.js', 
+            array( 'jquery' ),
+            '1.2.4',
+            true
+        );
+    }
+}
+```
+> You have access to the Group and Page as its being enqueued, so some conditional logic can be handled at runtime, if needed.
 # License
 
 ## MIT License
