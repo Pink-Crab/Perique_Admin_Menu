@@ -21,9 +21,23 @@ The Admin Menu module gives full access to Perique DI Container, for more separa
 
 ## Setup
 
+Include the module using composer (via CLI)
 ```bash
 $ composer require pinkcrab/perique-admin-menu
 ```
+Once the module is included, we need to include the `Registration Middleware`. As this has its own dependencies, this will need to be added using `construct_registration_middleware()` from the `App_Factory` instance.
+
+```php
+$app = ( new PinkCrab\Perique\Application\App_Factory() )
+  // Perique bootstrapping as normal.   
+  ->construct_registration_middleware( Page_Middleware::class )
+  ->boot();
+```
+Once the middleware has been included, we can use Page & Group models as part of the usual [Registration](https://perique.info/core/Registration/) process
+
+## Groups
+
+
 
 ## License
 
