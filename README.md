@@ -12,7 +12,7 @@ A module for the Perique Plugin Framework, for rendering and processing Admin Me
 
 
 
-# Why?
+## Why?
 WordPress admin pages can be added with a simple function, but this can easily lead into messy structural code with includes for templates and the inevitable mixing of logic and presentation in templates.
 
 The Admin Menu module gives full access to Perique DI Container, for more separation of logic and presentation, with the added advantage of all your services being easy to test and reason with.
