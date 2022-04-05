@@ -294,8 +294,29 @@ class My_Page extends Menu_Page {
     // transcribed to wp-content/plugins/acme_plugin/views/pages/primary-page.php
 }
 ```
+> In templates `$this` relates to the `Renderable` instance and gives access to `render()` and other View methods.
+
 ---
 
+> ### protected string $view_data  
+> @var string  
+> @optional Will pass an empty array without access
+
+Passes an array of data which can be accessed in the view template.
+```php
+class My_Page extends Menu_Page {
+    protected string $view_data = [
+        'key1' => 'value1'
+        'key2' => 'value2'
+    ];
+}
+```
+> These would then be accessible in the template as `echo $key1;` would be `value1`
+> You can create the view_data property in the constructor to use injected services [See Example Project for more](https://github.com/gin0115/Perique-Menu-Page-Example/blob/main/src/Page/Parent_Page.php#L79)
+
+---
+
+#### Render View with a function [Read More](#public-function-render_view-callable)
 
 ## Page Methods
 
