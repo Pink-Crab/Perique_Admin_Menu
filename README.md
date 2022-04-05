@@ -41,9 +41,20 @@ Admin_Menu allows for the defining of Groups, compared to the vanilla `add_menu_
 
 To define a group, there are a few properties which must be defined and a few methods which can be used to share assets and functionality between all pages within the group.
 
-> All groups must extend from the [`PinkCrab\Perique_Admin_Menu\Group\Abstract_Group` (abstract) class](https://github.com/Pink-Crab/Perique_Admin_Menu/blob/feature/docs/src/Group/Abstract_Group.php).
+> All groups must extend from [`PinkCrab\Perique_Admin_Menu\Group\Abstract_Group`](https://github.com/Pink-Crab/Perique_Admin_Menu/blob/feature/docs/src/Group/Abstract_Group.php).
 
-## Group Methods
+## Group Properties
+
+These must all be declared as `protected` and can either be defined directly or via the constructor.
+
+> ### protected string $group_title
+
+Define the title of the Group.
+```php
+class My_Group extends Abstract_Group{
+    protected string $group_title = 'My Page Group'
+}
+```
 
 
 
