@@ -311,7 +311,7 @@ class My_Page extends Menu_Page {
     ];
 }
 ```
-> These would then be accessible in the template as `echo $key1;` would be `value1`
+> These would then be accessible in the template as `echo $key1;` would be `value1`  
 > You can create the view_data property in the constructor to use injected services [See Example Project for more](https://github.com/gin0115/Perique-Menu-Page-Example/blob/main/src/Page/Parent_Page.php#L79)
 
 ---
