@@ -172,9 +172,15 @@ class My_Group extends Abstract_Group{
 }
 ```
 
-
 ---
 
+# Pages
+
+Pages can either be added as part of a Group or standalone (as Main or Sub pages). Like Groups these are constructed using the DI Container, to allow for the injection of Services.
+
+To define a page, there are a few properties which must be defined and a few methods which can be used to enqueue scripts/style or trigger actions before the page is rendered.
+
+> All pages must extend from `PinkCrab\Perique_Admin_Menu\Page\Abstract_Page`
 
 # License
 
