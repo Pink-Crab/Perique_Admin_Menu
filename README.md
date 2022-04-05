@@ -1,19 +1,28 @@
 # Perique Admin Menu
 
-Docs to follow
+A module for the Perique Plugin Framework, for rendering and processing Admin Menu Pages with WordPress
 
-![Curren version](https://img.shields.io/badge/Current_Version-0.2.0-green.svg?style=flat " ") 
+![Packagist Version](https://img.shields.io/packagist/v/pinkcrab/perique-admin-menu?color=yellow&label=Latest%20Version)
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-![](https://github.com/Pink-Crab/Perique_Admin_Menu/workflows/GitHub_CI/badge.svg " ")
+![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique_Admin_Menu?label=Contributors)
+![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique_Admin_Menu)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/Pink-Crab/Perique_Admin_Menu/master?label=Github%20CI)
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/?branch=master)
 
 
+
+## Why?
+WordPress admin pages can be added with a simple function, but this can easily lead into messy structural code with includes for templates and the inevitable mixing of logic and presentation in templates.
+
+The Admin Menu module gives full access to Perique DI Container, for more separation of logic and presentation, with the added advantage of all your services being easy to test and reason with.
  
+**Requires [Perique](https://github.com/Pink-Crab/Perique-Framework)** for more details please visit our docs. https://perique.info
 
-## License ##
 
-### MIT License ###
+## License
+
+### MIT License
 
 http://www.opensource.org/licenses/mit-license.html 
 
