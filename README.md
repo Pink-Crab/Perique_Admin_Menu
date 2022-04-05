@@ -150,6 +150,32 @@ class My_Group extends Abstract_Group{
 }
 ```
 > You have access to the Group and Page as its being enqueued, so some conditional logic can be handled at runtime, if needed.
+
+---
+
+> ### public function load( Abstract_Group $group, Page $page ): void 
+> @param Abstract_Group $group
+> @param Page $page  
+
+This allows for the handling for form submissions or other checks before any page which is added as part of the group.
+
+```php
+class My_Group extends Abstract_Group{
+    public function load( Abstract_Group $group, Page $page ): void {
+        // If data has expired in transient, refresh.
+        $from_transient = get_transient('something');
+        if(false === $from_transient){
+            $data = do_something();
+            update_transient('something', $data, 12 * HOURS_IN_SECONDS);
+        }
+    }
+}
+```
+
+
+---
+
+
 # License
 
 ## MIT License
