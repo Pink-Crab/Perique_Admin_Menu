@@ -100,16 +100,29 @@ class My_Group extends Abstract_Group{
 
 An array of fully namespaced class names, which extend the Menu_Page object
 ```php
+use Acme\My_Plugin\Page\Child_Page;
+
 class My_Group extends Abstract_Group{
     protected array $pages = [
         'Acme\My_Plugin\Page\Primary_Page',
-        Acme\My_Plugin\Page\Child_Page::class
+        Child_Page::class
     ];
 }
 ```
+> You can use the `::class` helper constant if you wish.
 ---
 
+> ### protected int $position  
+> @var int  
+> @default 65 if not defined
 
+Define the menu position [See for more details](https://developer.wordpress.org/reference/functions/add_menu_page/#menu-structure)
+```php
+class My_Group extends Abstract_Group{
+    protected int $position = 24;
+}
+```
+---
 
 # License
 
