@@ -128,8 +128,8 @@ class My_Group extends Abstract_Group{
 
 These must all be declared as `public` and are optional.
 
-> Shared Group Methods are called before individual page methods are called. Applied to `enqueue()` and `load()`
-
+> Shared Group Methods are called before individual page methods are called. Applied to `enqueue()` and `load()`  
+  
 > ### public function enqueue( Abstract_Group $group, Page $page ): void 
 > @param Abstract_Group $group
 > @param Page $page  
