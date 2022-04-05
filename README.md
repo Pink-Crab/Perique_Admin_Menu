@@ -90,7 +90,7 @@ class My_Group extends Abstract_Group{
 The fully namespaced class name for the primary page (this must also be included in pages)
 ```php
 class My_Group extends Abstract_Group{
-    protected string $primary_page = 'Acme\\My_Plugin\\Page\\Primary_Page';
+    protected string $primary_page = 'Acme\My_Plugin\Page\Primary_Page';
 }
 ```
 ---
