@@ -218,7 +218,7 @@ class My_Page extends Menu_Page {
 
 > ### protected string $page_slug  
 > @var string  
-> @throws Page_Exception (code 200) If not defined and fails validation. 
+> @throws Page_Exception (code 201) If not defined and fails validation. 
 
 This is the pages slug, will be used as the group slug if defined as the parent page.
 
@@ -231,7 +231,7 @@ class My_Page extends Menu_Page {
 
 > ### protected string $menu_title  
 > @var string  
-> @throws Page_Exception (code 200) If not defined and fails validation. 
+> @throws Page_Exception (code 201) If not defined and fails validation. 
 
 This is used as the pages, sub menu title. 
 ```php
@@ -281,19 +281,38 @@ class My_Page extends Menu_Page {
 You can render your template using [Perique's View service](https://perique.info/core/App/view). To use `View`, you will need to define a template path and any optional data to pass to the view.
 
 
-> ### protected string $capability  
+> ### protected string $view_template  
 > @var string  
-> @optional will default to 'manage_options' if not defined.
+> @throws Page_Exception (code 200) If no view template defined (and not using the `render_view()` method)
 
-This sets the min user capabilities required to access the page. If not defined will default to 'manage_options'
+This is the path the template. It is based as the view root path, which is defined during setup. By default the view base path is (`wp-content/plugins/acme_plugin/views`)
+
+> As per View functionality the `.php` file extension is optional
 ```php
 class My_Page extends Menu_Page {
-    protected string $capability = 'edit_post';
+    protected string $view_template = 'pages/primary-page';
+    // transcribed to wp-content/plugins/acme_plugin/views/pages/primary-page.php
 }
 ```
 ---
 
 
+## Page Methods
+
+These must all be declared as `public` and are optional.
+
+> ### public function render_view(): callable 
+> @return callable  
+
+This can be used to override the use of View and the definition of template files.
+```php
+class My_Page extends Menu_Page {
+    public function render_view(): callable {
+        print 'Something to the page';
+    }
+}
+```
+---
 
 # License
 
