@@ -2,8 +2,7 @@
 
 A module for the Perique Plugin Framework, for rendering and processing Admin Menu Pages with WordPress
 
-![Packagist Version](https://img.shields.io/packagist/v/pinkcrab/perique-admin-menu?color=yellow&label=Latest%20Version)
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+[![Latest Stable Version](http://poser.pugx.org/pinkcrab/perique-admin-menu/v)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique_Admin_Menu?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique_Admin_Menu)
 [![Total Downloads](http://poser.pugx.org/pinkcrab/perique-admin-menu/downloads)](https://packagist.org/packages/pinkcrab/perique-admin-menu) 
@@ -12,7 +11,9 @@ A module for the Perique Plugin Framework, for rendering and processing Admin Me
 [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-admin-menu/require/php)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/?branch=master)
-
+[![WP6.1 [PHP7.2-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml)
+[![WP6.0 [PHP7.2-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml)
+[![WP5.9 [PHP7.2-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml)
 
 
 ## Why?
