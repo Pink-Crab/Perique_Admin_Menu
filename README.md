@@ -8,7 +8,6 @@ A module for the Perique Plugin Framework, for rendering and processing Admin Me
 [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-admin-menu/require/php)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique_Admin_Menu?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique_Admin_Menu)
-
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/?branch=master)
 [![WP6.1 [PHP7.2-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml)
