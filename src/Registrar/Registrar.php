@@ -43,9 +43,9 @@ class Registrar {
 	 */
 	public function register_primary( Page $page, ?Abstract_Group $group = null ): void {
 
-		switch ( get_parent_class( $page ) ) {
+		switch ( true ) {
 			// For menu pages
-			case Menu_Page::class:
+			case $page instanceof Menu_Page:
 				$hook = add_menu_page(
 					$page->page_title() ?? '',
 					$group ? $group->get_group_title() : $page->menu_title(),
@@ -77,8 +77,8 @@ class Registrar {
 	 * @return void
 	 */
 	public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
-		switch ( get_parent_class( $page ) ) {
-			case Menu_Page::class:
+		switch ( true ) {
+			case $page instanceof Menu_Page:
 				$hook = add_submenu_page(
 					$parent_slug,
 					$page->page_title() ?? '',
