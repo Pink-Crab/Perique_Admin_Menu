@@ -377,7 +377,9 @@ This can be used to override the use of View and the definition of template file
 ```php
 class My_Page extends Menu_Page {
     public function render_view(): callable {
-        print 'Something to the page';
+        return function(){
+            print 'Something to the page';
+        };
     }
 }
 ```
