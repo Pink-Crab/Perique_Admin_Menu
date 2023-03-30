@@ -43,23 +43,44 @@ Once the middleware has been included, we can use Page & Group models as part of
 
 It is possible to register either a single page or a group of pages.
 
+## Group
+
+A page can be used to register a group of pages, that can be registered as a top level menu item, or as a sub menu item of another page.
+
+```php
+class My_Group extends Abstract_Group{
+  // Required  
+  protected string $group_title = 'My Page Group';
+  protected string $primary_page = 'Acme\My_Plugin\Page\Primary_Page';
+  protected array $pages = array(
+    'Acme\My_Plugin\Page\Secondary_Page',
+    'Acme\My_Plugin\Page\Tertiary_Page',
+  );
+  
+  // Optional
+  protected string $capability = 'edit_posts'; // Defaults to manage_options
+  protected string $icon = 'dashicons-chart-pie'; // Defaults to dashicons-admin-generic
+  protected int $position = 24; // Defaults to 65
+}
+```
+
+It is possible to enqueue scripts and styles, explicitly for this group using the [enqueue method](./docs/group.md#public-function-enqueue-group-group--void). This would see those scripts and styles only loaded on the pages within the group.
+
 ## Page
 
 A page is a single menu item, that can be registered as a top level menu item, or as a sub menu item of another page.
 
 ```php
 class My_Page extends Menu_Page{
-  // Denotes parent page.
-  protected ?string $parent_slug = null;
-  
+
+  // Required  
   protected string $page_slug = 'acme_pages';
   protected string $page_title = 'Acme Pages';
   protected string $menu_title = 'Acme Pages';
   
-  // Optional, defaults to manage_options
-  protected string $capability = 'manage_options';
-
-  // Optional 
+  // Optional
+  protected ?string $parent_slug = null;       // If null, will be a top level menu item.
+  protected string $capability = 'edit_post';  // Default capability for page.
   protected ?int $position = 12;
 
   // View to render
@@ -76,7 +97,7 @@ For more details on the Page model, please see the [Page docs](./docs/page.md)
 
 ---
 
-## Form Handling Example
+### Page Form Handling Example
 
 ```php 
 class Settings_Page extends Menu_page{
@@ -99,7 +120,7 @@ class Settings_Page extends Menu_page{
   public function load( Page $page ): void{
     if( $this->form_handler->is_submitted() ){
       $new_settings = $this->form_handler->handle();
-      $this->view_data = $new_settings->as_array();
+      $this->view_data = $new_settings;
     }
   }
 }
