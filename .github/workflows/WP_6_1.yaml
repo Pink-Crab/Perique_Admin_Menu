@@ -1,4 +1,4 @@
-name: WP6.1 [PHP7.2-8.1] Tests
+name: WP6.1 [PHP7.2-8.2] Tests
 
 on:
   push:
