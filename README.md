@@ -64,7 +64,7 @@ class My_Group extends Abstract_Group{
 }
 ```
 
-It is possible to enqueue scripts and styles, explicitly for this group using the [enqueue method](./docs/group.md#public-function-enqueue-group-group--void). This would see those scripts and styles only loaded on the pages within the group.
+It is possible to enqueue scripts and styles, explicitly for this group using the [enqueue method](./docs/group.md#public-function-enqueue-abstract_group-group-page-page--void). This would see those scripts and styles only loaded on the pages within the group.
 
 Please see the [group docs](./docs/group.md) for more details.
 
