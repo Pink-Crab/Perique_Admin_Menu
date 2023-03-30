@@ -106,10 +106,10 @@ class Registrar {
 				$page->set_page_hook( $hook );
 
 				// Register Enqueue hooks for page/group.
-				$this->enqueue_scripts( $page->page_hook(), $page, $group );
+				$this->enqueue_scripts( $page->page_hook() ?? $hook, $page, $group );
 
 				// Register hook for pre-load page
-				$this->pre_load_hook( $page->page_hook(), $page, $group );
+				$this->pre_load_hook( $page->page_hook() ?? $hook, $page, $group );
 
 				break;
 			default:
