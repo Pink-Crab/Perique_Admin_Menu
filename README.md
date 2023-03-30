@@ -80,17 +80,23 @@ For more details on the Page model, please see the [Page docs](./docs/page.md)
 
 ```php 
 class Settings_Page extends Menu_page{
-  // Rest of page as normal
-  
+  // Page definitions.
+  protected string $page_slug = 'acme_pages';
+  protected string $page_title = 'Acme Pages';
+  protected string $menu_title = 'Acme Pages';
+  protected string $view_template = 'my-page.php';
+
+  // Custom form handler service.
   private Form_Handler $form_handler;
 
+  // Injected settings service and the form handler.
   public __construct( Settings $settings, Form_Handler $form_handler ){
     $this->form_handler = $form_handler;
     $this->view_data = $settings->as_array();
   }
 
+  // On page load, check if form has been submitted, and if so, handle it.
   public function load( Page $page ): void{
-    // If form has been submitted, handle it.
     if( $this->form_handler->is_submitted() ){
       $new_settings = $this->form_handler->handle();
       $this->view_data = $new_settings->as_array();
