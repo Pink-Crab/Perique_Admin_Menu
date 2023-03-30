@@ -66,6 +66,8 @@ class My_Group extends Abstract_Group{
 
 It is possible to enqueue scripts and styles, explicitly for this group using the [enqueue method](./docs/group.md#public-function-enqueue-group-group--void). This would see those scripts and styles only loaded on the pages within the group.
 
+Please see the [group docs](./docs/group.md) for more details.
+
 ## Page
 
 A page is a single menu item, that can be registered as a top level menu item, or as a sub menu item of another page.
