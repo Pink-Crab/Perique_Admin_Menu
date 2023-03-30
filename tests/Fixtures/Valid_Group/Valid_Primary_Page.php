@@ -78,14 +78,14 @@ class Valid_Primary_Page extends Menu_Page {
 	 * @var string
 	 */
 	protected $view_template = __DIR__ . '/view.php';
-	// protected $view_template =  '/view.php';
+	// protected $view_template = '/view.php';
 
 	/**
 	 * The view data used by view.
 	 *
 	 * @var array{data:string}
 	 */
-	protected $view_data = self::VIEW_DATA;
+	protected $view_data = self::VIEW_DATA;	
 
 	/**
 	 * Callback for enqueuing scripts and styles at a group level.
@@ -105,5 +105,8 @@ class Valid_Primary_Page extends Menu_Page {
 	 */
 	public function load( Page $page ): void {
 		self::$load_log[] = $page;
+
+		// Pass data to the view.
+		$this->view_data['on_load'] = '--Loaded Primary Page';
 	}
 }

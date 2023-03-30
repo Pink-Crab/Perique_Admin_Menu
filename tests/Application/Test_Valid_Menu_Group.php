@@ -104,13 +104,13 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 		$this->assertEquals( $defined_primary->slug(), $primary->parent_slug ); // Primary so slugs should match
 		$output_priamry = Output::buffer(
 			function() use ( $defined_primary ) {
-				do_action(
-					get_plugin_page_hookname( $defined_primary->slug(), '' ),
-					function( $e ) {}
-				);
+				$page_hook = get_plugin_page_hookname( $defined_primary->slug(), '' );
+
+				do_action( 'load-' . $page_hook );
+				do_action( $page_hook, function( $e ) {} );
 			}
 		);
-		$this->assertEquals( 'Valid Primary Page Data', $output_priamry );
+		$this->assertEquals( 'Valid Primary Page Data--Loaded Primary Page', $output_priamry );
 	}
 
 	/**
