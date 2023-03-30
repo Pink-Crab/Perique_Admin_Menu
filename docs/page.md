@@ -26,20 +26,6 @@ class My_Page extends Menu_Page {
 ```
 ---
 
-> ### protected string|null $parent_slug  
-> @var string  
-> @optional If registered as part of a group, the parent will be set based on the Groups parent page.  
-
-This should not be entered for parent pages, all child pages will be set based on the groups primary page (will overwrite any value defined). 
-
-If being created as a stand alone child pate, please enter the parent slug as per `add_submenu_page()`
-```php
-class My_Page extends Menu_Page {
-   protected ?string $parent_slug = 'acme_page_parent';
-}
-```
----
-
 > ### protected string $page_slug  
 > @var string  
 > @throws Page_Exception (code 201) If not defined and fails validation. 
@@ -188,6 +174,8 @@ class My_Page extends Menu_Page {
 ```
 
 > Please note this is fired after the [Groups load()](#public-function-load-abstract_group-group-page-page--void) method
+
+It is possible to update the `view_data` property in this method, which will be passed to the view template. This allows for form handling to carried out in this method and have any updated values represented in the view.
 
 ---
 

@@ -39,10 +39,42 @@ $app = ( new PinkCrab\Perique\Application\App_Factory() )
 ```
 Once the middleware has been included, we can use Page & Group models as part of the usual [Registration](https://perique.info/core/Registration/) process
 
+# Usage
 
+It is possible to register either a single page or a group of pages.
+
+## Page
+
+A page is a single menu item, that can be registered as a top level menu item, or as a sub menu item of another page.
+
+```php
+class My_Page extends Menu_Page{
+  // Denotes parent page.
+  protected ?string $parent_slug = null;
+  
+  protected string $page_slug = 'acme_pages';
+  protected string $page_title = 'Acme Pages';
+  protected string $menu_title = 'Acme Pages';
+  
+  // Optional, defaults to manage_options
+  protected string $capability = 'manage_options';
+
+  // Optional 
+  protected ?int $position = 12;
+
+  // View to render
+  protected string $view_template = 'my-page.php';
+  protected array $view_data = array('key' => 'value');
+}
+```
+
+It is possible to enqueue scripts and styles, explicitly for this page using the [enqueue method](./docs/page.md#public-function-enqueue-page-page--void).
+
+You can also trigger a callback on page load, using the [load method](./docs/page.md#public-function-load-page-page--void).
+
+For more details on the Page model, please see the [Page docs](./docs/page.md)
 
 ---
-
 
 
 # Example
