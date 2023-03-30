@@ -76,10 +76,33 @@ For more details on the Page model, please see the [Page docs](./docs/page.md)
 
 ---
 
+## Form Handling Example
+
+```php 
+class Settings_Page extends Menu_page{
+  // Rest of page as normal
+  
+  private Form_Handler $form_handler;
+
+  public __construct( Settings $settings, Form_Handler $form_handler ){
+    $this->form_handler = $form_handler;
+    $this->view_data = $settings->as_array();
+  }
+
+  public function load( Page $page ): void{
+    // If form has been submitted, handle it.
+    if( $this->form_handler->is_submitted() ){
+      $new_settings = $this->form_handler->handle();
+      $this->view_data = $new_settings->as_array();
+    }
+  }
+}
+```
+In the above example the page would be use the settings from the `Settings` service, and if the form has been submitted, it would use the `Form_Handler` service to handle the form and update the view data.
 
 # Example
 
-There is a basic example of how to use this Module as part of a plugin, please see https://github.com/gin0115/Perique-Menu-Page-Example for more details.
+There is a basic example of how to use this Module as part of a plugin, please see [Example Plugin](https://github.com/gin0115/Perique-Menu-Page-Example)
 
 # License
 
