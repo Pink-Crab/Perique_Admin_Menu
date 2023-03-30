@@ -111,6 +111,8 @@ You can render your template using [Perique's View service](https://perique.info
 
 This is the path the template. It is based as the view root path, which is defined during setup. By default the view base path is (`wp-content/plugins/acme_plugin/views`)
 
+#### Render View with a function [Read More](#public-function-render_view-callable)
+
 > As per View functionality the `.php` file extension is optional
 ```php
 class My_Page extends Menu_Page {
@@ -129,7 +131,7 @@ class My_Page extends Menu_Page {
 Passes an array of data which can be accessed in the view template.
 ```php
 class My_Page extends Menu_Page {
-   protected string $view_data = [
+   protected array $view_data = [
       'key1' => 'value1'
       'key2' => 'value2'
    ];
@@ -188,7 +190,6 @@ class My_Page extends Menu_Page {
 > Please note this is fired after the [Groups load()](#public-function-load-abstract_group-group-page-page--void) method
 
 ---
-#### Render View with a function [Read More](#public-function-render_view-callable)
 
 > ### public function render_view(): callable 
 > @return callable  

@@ -104,5 +104,9 @@ class Valid_Page extends Menu_Page {
 	 */
 	public function load( Page $page ): void {
 		self::$load_log[] = $page;
+
+		// Add some data to the the view data
+		$this->view_data['on_load'] = 'Loaded';
+
 	}
 }

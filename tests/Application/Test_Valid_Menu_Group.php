@@ -110,6 +110,7 @@ class Test_Valid_Menu_Group extends WP_UnitTestCase {
 				);
 			}
 		);
+		var_dump( $output_priamry );
 		$this->assertEquals( 'Valid Primary Page Data', $output_priamry );
 	}
 
