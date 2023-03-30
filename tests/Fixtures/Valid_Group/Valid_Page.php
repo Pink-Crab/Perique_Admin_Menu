@@ -78,6 +78,7 @@ class Valid_Page extends Menu_Page {
 	 * @var string
 	 */
 	protected $view_template = __DIR__ . '/view.php';
+	// protected $view_template = '/view.php';
 
 	/**
 	 * The view data used by view.
@@ -106,7 +107,7 @@ class Valid_Page extends Menu_Page {
 		self::$load_log[] = $page;
 
 		// Add some data to the the view data
-		$this->view_data['on_load'] = 'Loaded';
+		$this->view_data['on_load'] = 'Loaded Non Primary Page';
 
 	}
 }

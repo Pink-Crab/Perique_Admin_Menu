@@ -7,3 +7,5 @@ plugin.php
 clover.xml
 .vscode
 tests/.env
+plugin.php
+views
