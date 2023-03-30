@@ -31,7 +31,7 @@ use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Perique_Admin_Menu\Registrar\Page_Dispatcher;
 use PinkCrab\Perique\Application\App;
 use PinkCrab\Perique_Admin_Menu\Registrar\Registrar;
-use PinkCrab\Perique_Admin_Menu\Registration_Middleware\Page_Middleware;
+use PinkCrab\Perique_Admin_Menu\Module\Page_Middleware;
 use PinkCrab\Perique_Admin_Menu\Validator\Group_Validator;
 
 trait Helper_Factory {
@@ -59,10 +59,10 @@ trait Helper_Factory {
 	 * @return void
 	 */
 	protected static function unset_app_instance(): void {
-		$app = new App();
+		$app = new App(__DIR__);
 		Objects::set_property( $app, 'app_config', null );
 		Objects::set_property( $app, 'container', null );
-		Objects::set_property( $app, 'registration', null );
+		Objects::set_property( $app, 'module_manager', null );
 		Objects::set_property( $app, 'loader', null );
 		Objects::set_property( $app, 'booted', false );
 		$app = null;

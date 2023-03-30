@@ -29,12 +29,12 @@ Include the module using composer (via CLI)
 ```bash
 $ composer require pinkcrab/perique-admin-menu
 ```
-Once the module is included, we need to include the `Registration Middleware`. As this has its own dependencies, this will need to be added using `construct_registration_middleware()` from the `App_Factory` instance.
+Once this has been included, we can add the module to Perique and its underlying Middleware will be added to the registration process.
 
 ```php
 $app = ( new PinkCrab\Perique\Application\App_Factory() )
   // Perique bootstrapping as normal.   
-  ->construct_registration_middleware( Page_Middleware::class )
+  ->module( Admin_Menu::class )
   ->boot();
 ```
 Once the middleware has been included, we can use Page & Group models as part of the usual [Registration](https://perique.info/core/Registration/) process

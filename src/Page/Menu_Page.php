@@ -176,6 +176,7 @@ abstract class Menu_Page implements Page {
 		}
 
 		return function() {
+			// @phpstan-ignore-next-line, as we have already checked for null.
 			$this->view->render( $this->view_template, $this->view_data );
 		};
 
