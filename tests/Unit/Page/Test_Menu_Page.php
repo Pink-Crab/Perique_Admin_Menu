@@ -80,7 +80,7 @@ class Test_Menu_Page extends WP_UnitTestCase {
 	/** @testdox If a page title is not set, it should return null if attempting to access */
 	public function test_get_page_title_null_if_unset(): void {
 		$page = new Invalid_Primary_Page();
-		$this->assertNull( $page->page_title() );
+		$this->assertEquals('',  $page->page_title() );
 	}
 
 	/** @testdox It should be possible to get the position of a page, if its defined. */

@@ -33,12 +33,9 @@ use PinkCrab\Perique_Admin_Menu\Validator\Group_Validator;
 
 class Page_Middleware implements Registration_Middleware {
 
-	/** @var Page_Dispatcher */
-	public $dispatcher;
-	/** @var Group_Validator */
-	public $group_validator;
-	/** @var Hook_Loader */
-	public $hook_loader;
+	public Page_Dispatcher $dispatcher;
+	public Group_Validator $group_validator;
+	public Hook_Loader $hook_loader;
 
 	public function __construct(
 		Page_Dispatcher $dispatcher,
