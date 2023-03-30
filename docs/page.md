@@ -193,3 +193,8 @@ class My_Page extends Menu_Page {
 }
 ```
 ---
+
+> ### public function page_hook(): ?string  
+> @return string|null  
+
+This will return the hook name of the page, if it has been registered. This is useful for adding hooks to the page, such as `add_action( 'load-' . $page_hook, 'my_callback' );`. If this is called before the page is registered, it will return `null`.
