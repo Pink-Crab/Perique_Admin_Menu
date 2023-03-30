@@ -66,4 +66,9 @@ interface Page {
 	 */
 	public function load( Page $page ): void;
 
+	/**
+	 * @return ?string
+	 */
+	public function page_hook(): ?string;
+
 }

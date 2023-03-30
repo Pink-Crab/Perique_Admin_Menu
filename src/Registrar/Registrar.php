@@ -46,6 +46,9 @@ class Registrar {
 		switch ( true ) {
 			// For menu pages
 			case $page instanceof Menu_Page:
+				/** @var Menu_Page $page */
+				$page = $page;
+
 				$hook = add_menu_page(
 					$page->page_title() ?? '',
 					$group ? $group->get_group_title() : $page->menu_title(),
@@ -55,6 +58,8 @@ class Registrar {
 					$group ? $group->get_icon() : '',
 					(int) ( $group ? $group->get_position() : $page->position() )
 				);
+
+				$page->set_page_hook( $hook );
 
 				// Register Enqueue hooks for page/group.
 				$this->enqueue_scripts( $hook, $page, $group );
@@ -79,6 +84,9 @@ class Registrar {
 	public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
 		switch ( true ) {
 			case $page instanceof Menu_Page:
+				/** @var Menu_Page $page */
+				$page = $page;
+
 				$hook = add_submenu_page(
 					$parent_slug,
 					$page->page_title() ?? '',
@@ -93,6 +101,9 @@ class Registrar {
 				if ( ! is_string( $hook ) ) {
 					return;
 				}
+
+				// Set the pages hook.
+				$page->set_page_hook( $hook );
 
 				// Register Enqueue hooks for page/group.
 				$this->enqueue_scripts( $hook, $page, $group );
