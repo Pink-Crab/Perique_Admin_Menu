@@ -87,6 +87,13 @@ abstract class Menu_Page implements Page {
 	protected $view_data = array();
 
 	/**
+	 * Holds the page hook.
+	 *
+	 * @var ?string
+	 */
+	protected $page_hook;
+
+	/**
 	 * View
 	 *
 	 * @var View
@@ -196,6 +203,25 @@ abstract class Menu_Page implements Page {
 	public function load( Page $page ): void {
 		// Do nothing.
 		// Can be extended in any child class that extends.
+	}
+
+	/**
+	 * Sets the page hook
+	 *
+	 * @param string $page_hook
+	 * @return void
+	 */
+	final public function set_page_hook( string $page_hook ): void {
+		$this->page_hook = $page_hook;
+	}
+
+	/**
+	 * Gets the page hook
+	 *
+	 * @return string|null
+	 */
+	final public function page_hook(): ?string {
+		return $this->page_hook;
 	}
 
 
