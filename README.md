@@ -58,9 +58,9 @@ class My_Group extends Abstract_Group{
   );
   
   // Optional
-  protected string $capability = 'edit_posts'; // Defaults to manage_options
+  protected string $capability = 'edit_posts';    // Defaults to manage_options
   protected string $icon = 'dashicons-chart-pie'; // Defaults to dashicons-admin-generic
-  protected int $position = 24; // Defaults to 65
+  protected int $position = 24;                   // Defaults to 65
 }
 ```
 
