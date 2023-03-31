@@ -1,3 +1,5 @@
+![logo](./docs/Perique%20Admin%20MenuCard.jpg "PinkCrab Perique Hook Subscriber")
+
 # Perique Admin Menu
 
 A module for the Perique Plugin Framework, for rendering and processing Admin Menu Pages with WordPress
