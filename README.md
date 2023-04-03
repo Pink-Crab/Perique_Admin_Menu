@@ -1,3 +1,5 @@
+![logo](./docs/Perique%20Admin%20MenuCard.jpg "PinkCrab Perique Hook Subscriber")
+
 # Perique Admin Menu
 
 A module for the Perique Plugin Framework, for rendering and processing Admin Menu Pages with WordPress
@@ -8,9 +10,9 @@ A module for the Perique Plugin Framework, for rendering and processing Admin Me
 [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-admin-menu/require/php)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique_Admin_Menu?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique_Admin_Menu)
-[![WP5.9 [PHP7.2-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml)
-[![WP6.0 [PHP7.2-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml)
-[![WP6.1 [PHP7.2-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml)
+
+[![WP5.9 [PHP7.4-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml)[![WP6.0 [PHP7.4-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml)[![WP6.1 [PHP7.4-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml)[![WP6.2 [PHP7.4-8.2] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml)
+
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e2a31a8cb4df21afcad3/maintainability)](https://codeclimate.com/github/Pink-Crab/Perique_Admin_Menu/maintainability)
@@ -29,12 +31,12 @@ Include the module using composer (via CLI)
 ```bash
 $ composer require pinkcrab/perique-admin-menu
 ```
-Once the module is included, we need to include the `Registration Middleware`. As this has its own dependencies, this will need to be added using `construct_registration_middleware()` from the `App_Factory` instance.
+Once this has been included, we can add the module to Perique and its underlying Middleware will be added to the registration process.
 
 ```php
 $app = ( new PinkCrab\Perique\Application\App_Factory() )
   // Perique bootstrapping as normal.   
-  ->construct_registration_middleware( Page_Middleware::class )
+  ->module( Admin_Menu::class )
   ->boot();
 ```
 Once the middleware has been included, we can use Page & Group models as part of the usual [Registration](https://perique.info/core/Registration/) process

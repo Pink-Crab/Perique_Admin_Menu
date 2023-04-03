@@ -31,6 +31,7 @@ use PinkCrab\Perique\Interfaces\Renderable;
 use PinkCrab\Perique\Application\App_Factory;
 use PinkCrab\Perique\Services\View\PHP_Engine;
 use Gin0115\WPUnit_Helpers\WP\Menu_Page_Inspector;
+use PinkCrab\Perique_Admin_Menu\Module\Admin_Menu;
 use PinkCrab\Perique_Admin_Menu\Tests\Integration\Helper_Factory;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Group;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Invalid_Group\Invalid_Group;
@@ -62,9 +63,10 @@ class Test_Invalid_Menu_Group extends WP_UnitTestCase {
 					),
 				)
 			)
+			->module(Admin_Menu::class)
 			->boot();
 
-		$app->registration_middleware( $this->middleware_provider( $app ) );
+		// $app->registration_middleware( $this->middleware_provider( $app ) );
 		$app->registration_classes( array( Valid_Group::class ) );
 
 		// Log in as customer and run the apps initialisation (on init hook)
@@ -101,9 +103,10 @@ class Test_Invalid_Menu_Group extends WP_UnitTestCase {
 					),
 				)
 			)
+			->module(Admin_Menu::class)
 			->boot();
 
-		$app->registration_middleware( $this->middleware_provider( $app ) );
+		// $app->registration_middleware( $this->middleware_provider( $app ) );
 		$app->registration_classes( array( Invalid_Group::class ) );
 
 		// Log in as customer and run the apps initialisation (on init hook)

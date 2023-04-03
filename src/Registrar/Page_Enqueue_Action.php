@@ -29,26 +29,14 @@ use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 
 class Page_Enqueue_Action {
 
-	/**
-	 * The hook being enqueued
-	 *
-	 * @var string
-	 */
-	protected $hook;
+	/** The hook being enqueued */
+	protected string $hook;
 
-	/**
-	 * The current page being enqueued
-	 *
-	 * @var Page
-	 */
-	protected $page;
+	/** The current page being enqueued  */
+	protected Page $page;
 
-	/**
-	 * The option group being enqueued
-	 *
-	 * @var Abstract_Group|null
-	 */
-	protected $group;
+	/** The option group being enqueued */
+	protected ?Abstract_Group $group;
 
 	public function __construct( string $hook, Page $page, ?Abstract_Group $group = null ) {
 		$this->hook  = $hook;

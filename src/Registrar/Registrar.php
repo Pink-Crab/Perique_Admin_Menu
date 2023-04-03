@@ -29,7 +29,6 @@ use PinkCrab\Perique_Admin_Menu\Hooks;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
-use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
 use PinkCrab\Perique_Admin_Menu\Registrar\Page_Load_Action;
 
 class Registrar {
