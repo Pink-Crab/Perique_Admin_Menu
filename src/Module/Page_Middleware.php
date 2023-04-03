@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Admin_Menu
  */
 
-namespace PinkCrab\Perique_Admin_Menu\Registration_Middleware;
+namespace PinkCrab\Perique_Admin_Menu\Module;
 
 use PinkCrab\Loader\Hook_Loader;
 use PinkCrab\Perique_Admin_Menu\Page\Page;
@@ -33,12 +33,9 @@ use PinkCrab\Perique_Admin_Menu\Validator\Group_Validator;
 
 class Page_Middleware implements Registration_Middleware {
 
-	/** @var Page_Dispatcher */
-	public $dispatcher;
-	/** @var Group_Validator */
-	public $group_validator;
-	/** @var Hook_Loader */
-	public $hook_loader;
+	public Page_Dispatcher $dispatcher;
+	public Group_Validator $group_validator;
+	public Hook_Loader $hook_loader;
 
 	public function __construct(
 		Page_Dispatcher $dispatcher,
@@ -56,7 +53,7 @@ class Page_Middleware implements Registration_Middleware {
 	 * @param object $class
 	 * @return object
 	 */
-	public function process( $class ) {
+	public function process( object $class ): object {
 		// If we have a valid SUB page.
 		if (
 			is_a( $class, Page::class )

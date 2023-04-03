@@ -35,70 +35,70 @@ abstract class Menu_Page implements Page {
 	 *
 	 * @var string|null
 	 */
-	protected $parent_slug;
+	protected ?string $parent_slug = null;
 
 	/**
 	 * The pages menu slug.
 	 *
 	 * @var string
 	 */
-	protected $page_slug;
+	protected string $page_slug = '';
 
 	/**
 	 * The menu title
 	 *
 	 * @var string
 	 */
-	protected $menu_title;
+	protected string $menu_title = '';
 
 	/**
 	 * The pages title
 	 *
 	 * @var string
 	 */
-	protected $page_title;
+	protected string $page_title = '';
 
 	/**
 	 * The pages position, in relation to other pages in group.
 	 *
 	 * @var int|null
 	 */
-	protected $position = null;
+	protected ?int $position = null;
 
 	/**
 	 * The min capabilities required to access page.
 	 *
 	 * @var string
 	 */
-	protected $capability = 'manage_options';
+	protected string $capability = 'manage_options';
 
 	/**
 	 * The template to be rendered.
 	 *
 	 * @var string
 	 */
-	protected $view_template;
+	protected string $view_template = '';
 
 	/**
 	 * Data to be used to render the page.
 	 *
 	 * @var array<string, mixed>
 	 */
-	protected $view_data = array();
+	protected array $view_data = array();
 
 	/**
 	 * Holds the page hook.
 	 *
 	 * @var ?string
 	 */
-	protected $page_hook;
+	protected ?string $page_hook = null;
 
 	/**
 	 * View
 	 *
 	 * @var View
 	 */
-	protected $view;
+	protected ?View $view = null;
 
 	/**
 	 * Set view
@@ -122,7 +122,7 @@ abstract class Menu_Page implements Page {
 	 * @return string
 	 */
 	public function slug(): string {
-		if ( $this->page_slug === null ) {
+		if ( $this->page_slug === '' ) {
 			throw Page_Exception::undefined_property( 'page_slug', $this );
 		}
 		return $this->page_slug;
@@ -132,7 +132,7 @@ abstract class Menu_Page implements Page {
 	 * @return string
 	 */
 	public function menu_title(): string {
-		if ( $this->menu_title === null ) {
+		if ( $this->menu_title === '' ) {
 			throw Page_Exception::undefined_property( 'menu_title', $this );
 		}
 		return $this->menu_title;
@@ -171,11 +171,12 @@ abstract class Menu_Page implements Page {
 			throw Page_Exception::view_not_set( $this );
 		}
 
-		if ( null === $this->view_template ) {
+		if ( '' === $this->view_template ) {
 			throw Page_Exception::undefined_property( 'view_template', $this );
 		}
 
 		return function() {
+			// @phpstan-ignore-next-line, as we have already checked for null.
 			$this->view->render( $this->view_template, $this->view_data );
 		};
 

@@ -49,43 +49,43 @@ class Valid_Page extends Menu_Page {
 	 *
 	 * @var string
 	 */
-	protected $page_slug = self::PAGE_SLUG;
+	protected string $page_slug = self::PAGE_SLUG;
 
 	/**
 	 * The menu title
 	 *
 	 * @var string
 	 */
-	protected $menu_title = self::MENU_TITLE;
+	protected string $menu_title = self::MENU_TITLE;
 
 	/**
 	 * The pages title
 	 *
 	 * @var string
 	 */
-	protected $page_title = self::PAGE_TITLE;
+	protected string $page_title = self::PAGE_TITLE;
 
 	/**
 	 * The pages position, in relation to other pages in group.
 	 *
 	 * @var string
 	 */
-	protected $position = self::POSITION;
+	protected ?int $position = self::POSITION;
 
 	/**
 	 * The template to be rendered.
 	 *
 	 * @var string
 	 */
-	protected $view_template = __DIR__ . '/view.php';
-	// protected $view_template = '/view.php';
+	protected string $view_template = __DIR__ . '/view.php';
+	// protected string $view_template = '/view.php';
 
 	/**
 	 * The view data used by view.
 	 *
 	 * @var array{data:string}
 	 */
-	protected $view_data = self::VIEW_DATA;
+	protected array $view_data = self::VIEW_DATA;
 
 	/**
 	 * Callback for enqueuing scripts and styles at a group level.

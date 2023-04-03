@@ -36,14 +36,9 @@ use PinkCrab\Perique_Admin_Menu\Validator\Group_Validator;
 
 class Page_Dispatcher {
 
-	/** @var \PinkCrab\Perique\Interfaces\DI_Container */
-	protected $di_container;
-
-	/** @var \PinkCrab\Perique\Services\View\View */
-	protected $view;
-
-	/** @var \PinkCrab\Perique_Admin_Menu\Registrar\Registrar */
-	protected $registrar;
+	protected DI_Container $di_container;
+	protected View $view;
+	protected Registrar $registrar;
 
 	public function __construct( DI_Container $di_container, View $view, Registrar $registrar ) {
 		$this->di_container = $di_container;

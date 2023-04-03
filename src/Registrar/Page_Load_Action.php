@@ -28,21 +28,11 @@ use PinkCrab\Perique_Admin_Menu\Page\Page;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 
 class Page_Load_Action {
+	/** The current page being enqueued */
+	protected Page $page;
 
-
-	/**
-	 * The current page being enqueued
-	 *
-	 * @var Page
-	 */
-	protected $page;
-
-	/**
-	 * The option group being enqueued
-	 *
-	 * @var Abstract_Group|null
-	 */
-	protected $group;
+	/** The option group being enqueued  */
+	protected ?Abstract_Group $group;
 
 	public function __construct( Page $page, ?Abstract_Group $group = null ) {
 		$this->page  = $page;

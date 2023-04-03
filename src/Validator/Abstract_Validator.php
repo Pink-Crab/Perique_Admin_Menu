@@ -26,12 +26,12 @@ namespace PinkCrab\Perique_Admin_Menu\Validator;
 
 abstract class Abstract_Validator {
 
-		/**
+	/**
 	 * Holds any errors encounted when validation a group.
 	 *
 	 * @var array<string>
 	 */
-	protected $errors = array();
+	protected array $errors = array();
 
 	/**
 	 * Resets the errors.
