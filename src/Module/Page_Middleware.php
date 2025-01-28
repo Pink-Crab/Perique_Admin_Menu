@@ -50,49 +50,48 @@ class Page_Middleware implements Registration_Middleware {
 	/**
 	 * Add all valid ajax calls to the dispatcher.
 	 *
-	 * @param object $class
+	 * @param object $class_instance
 	 * @return object
 	 */
-	public function process( object $class ): object {
+	public function process( object $class_instance ): object {
 		// If we have a valid SUB page.
 		if (
-			is_a( $class, Page::class )
+			is_a( $class_instance, Page::class )
 			&& is_admin()
-			&& ! is_null( $class->parent_slug() )
+			&& ! is_null( $class_instance->parent_slug() )
 		) {
 			$this->add_to_loader(
-				function () use ( $class ) : void {
-					$this->dispatcher->register_subpage( $class, $class->parent_slug() );
+				function () use ( $class_instance ): void {
+					$this->dispatcher->register_subpage( $class_instance, $class_instance->parent_slug() );
 				}
 			);
 		}
 
 		// If we have a valid SINGLE/PARENT page.
 		if (
-			is_a( $class, Page::class )
+			is_a( $class_instance, Page::class )
 			&& is_admin()
-			&& is_null( $class->parent_slug() )
+			&& is_null( $class_instance->parent_slug() )
 		) {
 			$this->add_to_loader(
-				function () use ( $class ) : void {
-					$this->dispatcher->register_single_page( $class );
+				function () use ( $class_instance ): void {
+					$this->dispatcher->register_single_page( $class_instance );
 				}
 			);
 		}
 
 		// If we have a valid group.
 		if (
-			is_a( $class, Abstract_Group::class )
+			is_a( $class_instance, Abstract_Group::class )
 			&& is_admin()
 		) {
-
 			$this->add_to_loader(
-				function () use ( $class ): void {
-					$this->dispatcher->register_group( $class );
+				function () use ( $class_instance ): void {
+					$this->dispatcher->register_group( $class_instance );
 				}
 			);
 		}
-		return $class;
+		return $class_instance;
 	}
 
 	/**

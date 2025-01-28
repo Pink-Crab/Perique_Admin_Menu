@@ -82,5 +82,4 @@ class Page_Exception extends Exception {
 			202
 		);
 	}
-
 }

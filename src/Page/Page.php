@@ -70,5 +70,4 @@ interface Page {
 	 * @return ?string
 	 */
 	public function page_hook(): ?string;
-
 }

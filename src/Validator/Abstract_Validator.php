@@ -76,5 +76,5 @@ abstract class Abstract_Validator {
 	 * @param mixed $subject
 	 * @return bool
 	 */
-	abstract public function validate( $subject): bool;
+	abstract public function validate( $subject ): bool;
 }

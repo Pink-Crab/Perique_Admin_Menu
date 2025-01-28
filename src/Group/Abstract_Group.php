@@ -85,7 +85,7 @@ abstract class Abstract_Group {
 	 */
 	public function get_group_title(): string {
 		if ( $this->group_title === null ) {
-			throw Group_Exception::group_title_undefined( $this );
+			throw Group_Exception::group_title_undefined( $this ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 		}
 		return $this->group_title;
 	}
@@ -115,7 +115,7 @@ abstract class Abstract_Group {
 	 */
 	public function get_primary_page(): string {
 		if ( $this->primary_page === null ) {
-			throw Group_Exception::primary_page_undefined( $this );
+			throw Group_Exception::primary_page_undefined( $this ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 		}
 		return $this->primary_page;
 	}
@@ -132,7 +132,7 @@ abstract class Abstract_Group {
 	/**
 	 * Set holds the groups menu position.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function get_position(): int {
 		return $this->position;
@@ -142,7 +142,7 @@ abstract class Abstract_Group {
 	 * Callback for enqueuing scripts and styles at a group level.
 	 *
 	 * @param Abstract_Group $group
-	 * @param Page $page
+	 * @param Page           $page
 	 * @return void
 	 * @codeCoverageIgnore This can't be tested as it does nothing and is extended only
 	 */
@@ -154,7 +154,7 @@ abstract class Abstract_Group {
 	 * Callback for triggering pre load actions for the groups page (at group level)
 	 *
 	 * @param Abstract_Group $group
-	 * @param Page $page
+	 * @param Page           $page
 	 * @return void
 	 * @codeCoverageIgnore This can't be tested as it does nothing and is extended only
 	 */
