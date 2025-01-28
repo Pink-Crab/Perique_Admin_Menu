@@ -123,7 +123,7 @@ abstract class Menu_Page implements Page {
 	 */
 	public function slug(): string {
 		if ( $this->page_slug === '' ) {
-			throw Page_Exception::undefined_property( 'page_slug', $this );
+			throw Page_Exception::undefined_property( 'page_slug', $this ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 		}
 		return $this->page_slug;
 	}
@@ -133,7 +133,7 @@ abstract class Menu_Page implements Page {
 	 */
 	public function menu_title(): string {
 		if ( $this->menu_title === '' ) {
-			throw Page_Exception::undefined_property( 'menu_title', $this );
+			throw Page_Exception::undefined_property( 'menu_title', $this ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 		}
 		return $this->menu_title;
 	}
@@ -168,18 +168,17 @@ abstract class Menu_Page implements Page {
 	 */
 	public function render_view(): callable {
 		if ( null === $this->view ) {
-			throw Page_Exception::view_not_set( $this );
+			throw Page_Exception::view_not_set( $this ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 		}
 
 		if ( '' === $this->view_template ) {
-			throw Page_Exception::undefined_property( 'view_template', $this );
+			throw Page_Exception::undefined_property( 'view_template', $this ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 		}
 
-		return function() {
+		return function () {
 			// @phpstan-ignore-next-line, as we have already checked for null.
 			$this->view->render( $this->view_template, $this->view_data );
 		};
-
 	}
 
 	/**
@@ -224,6 +223,4 @@ abstract class Menu_Page implements Page {
 	final public function page_hook(): ?string {
 		return $this->page_hook;
 	}
-
-
 }

@@ -4,14 +4,18 @@
 
 A module for the Perique Plugin Framework, for rendering and processing Admin Menu Pages with WordPress
 
-[![Latest Stable Version](http://poser.pugx.org/pinkcrab/perique-admin-menu/v)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
-[![Total Downloads](http://poser.pugx.org/pinkcrab/perique-admin-menu/downloads)](https://packagist.org/packages/pinkcrab/perique-admin-menu) 
-[![License](http://poser.pugx.org/pinkcrab/perique-admin-menu/license)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
-[![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-admin-menu/require/php)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
+[![Latest Stable Version](https://poser.pugx.org/pinkcrab/perique-admin-menu/v)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
+[![Total Downloads](https://poser.pugx.org/pinkcrab/perique-admin-menu/downloads)](https://packagist.org/packages/pinkcrab/perique-admin-menu) 
+[![License](https://poser.pugx.org/pinkcrab/perique-admin-menu/license)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
+[![PHP Version Require](https://poser.pugx.org/pinkcrab/perique-admin-menu/require/php)](https://packagist.org/packages/pinkcrab/perique-admin-menu)
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique_Admin_Menu?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique_Admin_Menu)
 
-[![WP5.9 [PHP7.4-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_5_9.yaml)[![WP6.0 [PHP7.4-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_0.yaml)[![WP6.1 [PHP7.4-8.1] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_1.yaml)[![WP6.2 [PHP7.4-8.2] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml)
+[![W6.2 [PHP7.4-8.2] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml)
+[![WP6.3 [PHP7.4-8.2] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_3.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_3.yaml)
+[![WP6.4 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_4.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_4.yaml)
+[![WP6.5 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_5.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_5.yaml)
+[![WP6.6 [PHP7.4-8.4] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml)
 
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/?branch=master)
