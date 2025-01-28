@@ -15,7 +15,7 @@ A module for the Perique Plugin Framework, for rendering and processing Admin Me
 [![WP6.3 [PHP7.4-8.2] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_3.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_3.yaml)
 [![WP6.4 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_4.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_4.yaml)
 [![WP6.5 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_5.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_5.yaml)
-[![WP6.6 [PHP7.4-8.4] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml)
+[![WP6.6 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml)
 
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/?branch=master)
