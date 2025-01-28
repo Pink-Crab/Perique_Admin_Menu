@@ -154,6 +154,7 @@ All code must be supplied with matching tests and must pass PHPUNIT, PHPStan and
 See composer.json for details on the test and linting commands. `composer all` is the most important.
 
 # Change Log 
+* 2.1.0 - Added support for Perique 2.1.x and updated some dev dependencies.
 * 2.0.0 - Migrated to Perique 2.0.0
 * 1.0.1 - Separated out the docs and added `page_hook()` method to page models and sets the hook after registration.
 * 1.0.0 - Finalised API for Perique 1.4.*
