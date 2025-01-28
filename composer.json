@@ -37,7 +37,7 @@
         "roave/security-advisories": "dev-latest",
         "wp-coding-standards/wpcs": "^3",
         "gin0115/wpunit-helpers": "1.1.*",
-        "vlucas/phpdotenv": "<=5.5.0"
+        "vlucas/phpdotenv": "<=5.7.0"
     },
     "require": {
         "php": ">=7.4.0",
