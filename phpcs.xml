@@ -14,6 +14,7 @@
 		<exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
 		<exclude name="WordPress.PHP.DisallowShortTernary.Found"/>
 		<exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClass" />
+		<exclude name="PSR12.Files.FileHeader.IncorrectOrder" />
 	</rule>
 
 	<!-- Add in some extra rules from other standards. -->

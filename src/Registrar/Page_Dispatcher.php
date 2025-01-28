@@ -74,7 +74,6 @@ class Page_Dispatcher {
 				$this->register_subpage( $page, $this->get_primary_page( $group )->slug(), $group );
 			}
 			$this->set_primary_page_details( $group );
-
 		} catch ( \Throwable $th ) {
 			$this->admin_exception_notice( $group, $th );
 		}
@@ -83,19 +82,19 @@ class Page_Dispatcher {
 	/**
 	 * Handles the display of errors thrown registering admin menu pages in wp_admin.
 	 *
-	 * @param Abstract_Group|Page $object
-	 * @param \Throwable $exception
+	 * @param Abstract_Group|Page $object_instance
+	 * @param \Throwable          $exception
 	 * @return void
 	 */
-	public function admin_exception_notice( $object, Throwable $exception ): void {
+	public function admin_exception_notice( $object_instance, Throwable $exception ): void {
 		add_action(
 			'admin_notices',
-			function() use ( $object, $exception ) {
+			function () use ( $object_instance, $exception ) {
 				$class   = 'notice notice-error';
 				$message = sprintf(
 					'%s <i>%s</i> generated errors while being registered. This might result in admin pages being missing or broken. <br><b>%s(%s: %s)</b>',
-					get_class( $object ) === Page::class ? 'Page' : 'Menu Group',
-					get_class( $object ),
+					get_class( $object_instance ) === Page::class ? 'Page' : 'Menu Group',
+					get_class( $object_instance ),
 					$exception->getMessage(),
 					$exception->getFile(),
 					$exception->getLine()
@@ -136,11 +135,13 @@ class Page_Dispatcher {
 	 * @return \PinkCrab\Perique_Admin_Menu\Page\Page
 	 */
 	protected function get_primary_page( Abstract_Group $group ): Page {
-		/** @var Page */
+		/**
+ * @var Page
+*/
 		$page = $this->di_container->create( $group->get_primary_page() );
 
 		if ( ! is_object( $page ) || ! is_a( $page, Page::class ) ) {
-			throw Page_Exception::invalid_page_type( $page );
+			throw Page_Exception::invalid_page_type( $page ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 		}
 
 		// Register view if requied.
@@ -161,16 +162,16 @@ class Page_Dispatcher {
 	 */
 	protected function get_pages( Abstract_Group $group ): array {
 		return array_map(
-			function( string $page ): Page {
+			function ( string $page ): Page {
 				$constructed_page = $this->di_container->create( $page );
 				if ( ! is_object( $constructed_page ) || ! is_a( $constructed_page, Page::class ) ) {
-					throw Page_Exception::invalid_page_type( $constructed_page );
+					throw Page_Exception::invalid_page_type( $constructed_page ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped, escaped in exception.
 				}
 				return $constructed_page;
 			},
 			array_filter(
 				$group->get_pages(),
-				function( string $page ) use ( $group ) {
+				function ( string $page ) use ( $group ) {
 					return $page !== $group->get_primary_page();
 				}
 			)
@@ -199,7 +200,7 @@ class Page_Dispatcher {
 			$primary->slug(),
 			\array_column( $submenu[ $primary->slug() ], 2 ),
 			true
-		) ?: 0;
+		) ?: 0; // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
 
 		$submenu[ $primary->slug() ][ $primary_page_key ][0] = $primary->menu_title();
 	}
@@ -208,8 +209,8 @@ class Page_Dispatcher {
 	/**
 	 * Registers a subpage.
 	 *
-	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page $page
-	 * @param string $parent_slug
+	 * @param \PinkCrab\Perique_Admin_Menu\Page\Page                 $page
+	 * @param string                                                 $parent_slug
 	 * @param \PinkCrab\Perique_Admin_Menu\Group\Abstract_Group|null $group
 	 * @return void
 	 */
@@ -249,6 +250,4 @@ class Page_Dispatcher {
 			$this->admin_exception_notice( $page, $th );
 		}
 	}
-
-
 }
