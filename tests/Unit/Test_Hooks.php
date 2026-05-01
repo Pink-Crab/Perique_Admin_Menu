@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Admin Menu hooks
+ * Unit tests for the Hooks constants.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,36 +22,24 @@ declare(strict_types=1);
  * @package PinkCrab\Perique_Admin_Menu
  */
 
-namespace PinkCrab\Perique_Admin_Menu;
+namespace PinkCrab\Perique_Admin_Menu\Tests\Unit;
 
-class Hooks {
+use WP_UnitTestCase;
+use PinkCrab\Perique_Admin_Menu\Hooks;
 
-	/**
-	 * The base prefix for all hooks.
-	 */
-	protected const HOOK_PREFIX = 'pinkcrab/admin_menu/';
+class Test_Hooks extends WP_UnitTestCase {
 
-	/**
-	 * Register other primary pages.
-	 */
-	public const PAGE_REGISTRAR_PRIMARY = self::HOOK_PREFIX . 'page_registrar_primary';
+	/** @testdox Every published Hooks constant uses the canonical pinkcrab/admin_menu/ prefix. */
+	public function test_all_hooks_use_canonical_prefix(): void {
+		$prefix = 'pinkcrab/admin_menu/';
+		$this->assertStringStartsWith( $prefix, Hooks::PAGE_REGISTRAR_PRIMARY );
+		$this->assertStringStartsWith( $prefix, Hooks::PAGE_REGISTRAR_SUB );
+		$this->assertStringStartsWith( $prefix, Hooks::ENQUEUE_GROUP );
+		$this->assertStringStartsWith( $prefix, Hooks::GROUPS_PROCESSED );
+	}
 
-	/**
-	 * Register other sub pages.
-	 */
-	public const PAGE_REGISTRAR_SUB = self::HOOK_PREFIX . 'page_registrar_sub';
-
-	/**
-	 * Hook for action triggered after each in a group is registered
-	 */
-	public const ENQUEUE_GROUP = self::HOOK_PREFIX . 'enqueue_group';
-
-	/**
-	 * Fired from Page_Middleware::tear_down() once admin-menu has finished
-	 * scanning every registration class for Abstract_Group instances. Passes
-	 * the populated Group_Page_Registry as the only argument so downstream
-	 * modules can iterate Group-declared page classes and add DI rules
-	 * before WP fires admin_menu (where pages are materialised).
-	 */
-	public const GROUPS_PROCESSED = self::HOOK_PREFIX . 'groups_processed';
+	/** @testdox Hooks::GROUPS_PROCESSED resolves to the documented action name. */
+	public function test_groups_processed_constant_value(): void {
+		$this->assertSame( 'pinkcrab/admin_menu/groups_processed', Hooks::GROUPS_PROCESSED );
+	}
 }

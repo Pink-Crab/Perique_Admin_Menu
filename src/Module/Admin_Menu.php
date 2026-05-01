@@ -30,6 +30,7 @@ use PinkCrab\Perique\Interfaces\Module;
 use PinkCrab\Perique\Application\App_Config;
 use PinkCrab\Perique\Interfaces\DI_Container;
 use PinkCrab\Perique_Admin_Menu\Module\Page_Middleware;
+use PinkCrab\Perique_Admin_Menu\Registry\Group_Page_Registry;
 
 class Admin_Menu implements Module {
 	/** @inheritDoc */
@@ -37,8 +38,16 @@ class Admin_Menu implements Module {
 		return Page_Middleware::class;
 	}
 
+	/** @inheritDoc */
+	public function pre_boot( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
+		// Pin the registry as shared so dispatcher + downstream hook subscribers see the same instance.
+		$di_container->addRule(
+			Group_Page_Registry::class,
+			array( 'shared' => true )
+		);
+	}
+
 	## Unused methods
 	public function pre_register( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void {} // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
-	public function pre_boot( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void {} // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
 	public function post_register( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void {} // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInImplementedInterfaceBeforeLastUsed
 }
