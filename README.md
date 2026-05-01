@@ -11,11 +11,10 @@ A module for the Perique Plugin Framework, for rendering and processing Admin Me
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique_Admin_Menu?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique_Admin_Menu)
 
-[![W6.2 [PHP7.4-8.2] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_2.yaml)
-[![WP6.3 [PHP7.4-8.2] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_3.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_3.yaml)
-[![WP6.4 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_4.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_4.yaml)
-[![WP6.5 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_5.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_5.yaml)
-[![WP6.6 [PHP7.4-8.3] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml)
+[![WP6.6 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_6.yaml)
+[![WP6.7 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_7.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_7.yaml)
+[![WP6.8 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_8.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_8.yaml)
+[![WP6.9 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique_Admin_Menu/actions/workflows/WP_6_9.yaml)
 
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu/branch/master/graph/badge.svg)](https://codecov.io/gh/Pink-Crab/Perique_Admin_Menu)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique_Admin_Menu/?branch=master)
@@ -154,6 +153,7 @@ All code must be supplied with matching tests and must pass PHPUNIT, PHPStan and
 See composer.json for details on the test and linting commands. `composer all` is the most important.
 
 # Change Log 
+* 2.1.1 - Updated dev dependencies.
 * 2.1.0 - Added support for Perique 2.1.x and updated some dev dependencies.
 * 2.0.0 - Migrated to Perique 2.0.0
 * 1.0.1 - Separated out the docs and added `page_hook()` method to page models and sets the hook after registration.
