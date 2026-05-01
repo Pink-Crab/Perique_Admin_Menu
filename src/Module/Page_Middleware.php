@@ -85,6 +85,9 @@ class Page_Middleware implements Registration_Middleware {
 			is_a( $class_instance, Abstract_Group::class )
 			&& is_admin()
 		) {
+			// Claim group's pages so duplicates in registration_classes skip self-registering.
+			$this->claim_group_pages( $class_instance );
+
 			$this->add_to_loader(
 				function () use ( $class_instance ): void {
 					$this->dispatcher->register_group( $class_instance );
@@ -92,6 +95,35 @@ class Page_Middleware implements Registration_Middleware {
 			);
 		}
 		return $class_instance;
+	}
+
+	/**
+	 * Marks every page class on a Group as claimed on the dispatcher.
+	 *
+	 * @param Abstract_Group $group
+	 * @return void
+	 */
+	protected function claim_group_pages( Abstract_Group $group ): void {
+		try {
+			$primary = $group->get_primary_page();
+			if ( '' !== $primary ) {
+				$this->dispatcher->mark_group_claimed( $primary );
+			}
+		} catch ( \Throwable $th ) {
+			unset( $th );
+		}
+
+		try {
+			$pages = $group->get_pages();
+		} catch ( \Throwable $th ) {
+			return;
+		}
+
+		foreach ( $pages as $page_class ) {
+			if ( is_string( $page_class ) && '' !== $page_class ) {
+				$this->dispatcher->mark_group_claimed( $page_class );
+			}
+		}
 	}
 
 	/**

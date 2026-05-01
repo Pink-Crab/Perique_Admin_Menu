@@ -213,6 +213,125 @@ class Test_Page_Dispatcher extends WP_UnitTestCase {
 		\do_action( 'admin_notices' );
 	}
 
+	/** @testdox is_group_claimed returns false for any class before mark_group_claimed has been called for it. */
+	public function test_is_group_claimed_false_by_default(): void {
+		$dispatcher = $this->get_mock_dispatcher();
+		$this->assertFalse( $dispatcher->is_group_claimed( Valid_Page::class ) );
+		$this->assertFalse( $dispatcher->is_group_claimed( Valid_Primary_Page::class ) );
+	}
+
+	/** @testdox After mark_group_claimed( $class ), is_group_claimed( $class ) returns true. */
+	public function test_mark_group_claimed_marks_only_that_class(): void {
+		$dispatcher = $this->get_mock_dispatcher();
+
+		$dispatcher->mark_group_claimed( Valid_Page::class );
+
+		$this->assertTrue( $dispatcher->is_group_claimed( Valid_Page::class ) );
+		$this->assertFalse( $dispatcher->is_group_claimed( Valid_Primary_Page::class ) );
+	}
+
+	/** @testdox The internal $group_claimed map records claims under the page class name. */
+	public function test_mark_group_claimed_writes_to_internal_state(): void {
+		$dispatcher = $this->get_mock_dispatcher();
+
+		$dispatcher->mark_group_claimed( Valid_Page::class );
+
+		$claimed = Objects::get_property( $dispatcher, 'group_claimed' );
+		$this->assertIsArray( $claimed );
+		$this->assertArrayHasKey( Valid_Page::class, $claimed );
+		$this->assertTrue( $claimed[ Valid_Page::class ] );
+	}
+
+	/** @testdox register_single_page short-circuits and does not call the registrar when the page class has been claimed by a Group. */
+	public function test_register_single_page_skips_when_claimed(): void {
+		$page = new Valid_Primary_Page();
+
+		$di        = $this->createMock( DI_Container::class );
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = $this->createMock( Registrar::class );
+		$registrar->expects( $this->never() )->method( 'register_primary' );
+
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+		$dispatcher->mark_group_claimed( Valid_Primary_Page::class );
+
+		$dispatcher->register_single_page( $page );
+	}
+
+	/** @testdox register_single_page still registers when the page class has not been claimed. */
+	public function test_register_single_page_proceeds_when_not_claimed(): void {
+		$page = new Valid_Primary_Page();
+
+		$di        = $this->createMock( DI_Container::class );
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = $this->createMock( Registrar::class );
+		$registrar->expects( $this->once() )->method( 'register_primary' )->with( $page, null );
+
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+
+		// Mock admin user so any internal capability checks pass downstream.
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+
+		$dispatcher->register_single_page( $page );
+	}
+
+	/** @testdox register_subpage short-circuits when the page class has been claimed AND no group context is supplied (the registration_classes path). */
+	public function test_register_subpage_skips_when_claimed_and_no_group(): void {
+		$page = new Valid_Page();
+
+		$di        = $this->createMock( DI_Container::class );
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = $this->createMock( Registrar::class );
+		$registrar->expects( $this->never() )->method( 'register_subpage' );
+
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+		$dispatcher->mark_group_claimed( Valid_Page::class );
+
+		$dispatcher->register_subpage( $page, 'parent', null );
+	}
+
+	/** @testdox register_subpage still registers when called with a Group context, even if the page class is claimed (the Group dispatch path is the legitimate caller). */
+	public function test_register_subpage_proceeds_when_claimed_but_group_supplied(): void {
+		$page  = new Valid_Page();
+		$group = new Valid_Group();
+
+		// Admin user so capability check passes.
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+
+		$di        = $this->createMock( DI_Container::class );
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = $this->createMock( Registrar::class );
+		$registrar->expects( $this->once() )
+			->method( 'register_subpage' )
+			->with( $page, 'parent', $group );
+
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+		$dispatcher->mark_group_claimed( Valid_Page::class );
+
+		$dispatcher->register_subpage( $page, 'parent', $group );
+	}
+
+	/** @testdox register_subpage still registers when not claimed, regardless of whether a group is supplied. */
+	public function test_register_subpage_proceeds_when_not_claimed_no_group(): void {
+		$page = new Valid_Page();
+
+		// Admin user so capability check passes.
+		$admin_user = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		wp_set_current_user( $admin_user );
+
+		$di        = $this->createMock( DI_Container::class );
+		$view      = $this->createMock( \PinkCrab\Perique\Services\View\View::class );
+		$registrar = $this->createMock( Registrar::class );
+		$registrar->expects( $this->once() )
+			->method( 'register_subpage' )
+			->with( $page, 'parent', null );
+
+		$dispatcher = new Page_Dispatcher( $di, $view, $registrar );
+
+		$dispatcher->register_subpage( $page, 'parent', null );
+	}
+
 	/** @testdox When registering a page, any exception thrown should be caught and shown as an admin error. */
 	public function test_generates_admin_message_if_exception_thrown_registering_page(): void {
 		$page = new Valid_Primary_Page();

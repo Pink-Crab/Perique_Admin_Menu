@@ -40,10 +40,37 @@ class Page_Dispatcher {
 	protected View $view;
 	protected Registrar $registrar;
 
+	/**
+	 * Page class names already claimed by an Abstract_Group.
+	 *
+	 * @var array<string, true>
+	 */
+	protected array $group_claimed = array();
+
 	public function __construct( DI_Container $di_container, View $view, Registrar $registrar ) {
 		$this->di_container = $di_container;
 		$this->view         = $view;
 		$this->registrar    = $registrar;
+	}
+
+	/**
+	 * Marks a page class as managed by an Abstract_Group.
+	 *
+	 * @param string $page_class Fully-qualified Page class name.
+	 * @return void
+	 */
+	public function mark_group_claimed( string $page_class ): void {
+		$this->group_claimed[ $page_class ] = true;
+	}
+
+	/**
+	 * Returns true if the given page class has been claimed by a Group.
+	 *
+	 * @param string $page_class Fully-qualified Page class name.
+	 * @return bool
+	 */
+	public function is_group_claimed( string $page_class ): bool {
+		return isset( $this->group_claimed[ $page_class ] );
 	}
 
 	/**
@@ -215,6 +242,11 @@ class Page_Dispatcher {
 	 * @return void
 	 */
 	public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
+		// Only suppress non-group-context calls.
+		if ( null === $group && isset( $this->group_claimed[ \get_class( $page ) ] ) ) {
+			return;
+		}
+
 		// If user cant access the page, bail before attempting to register.
 		if ( ! current_user_can( $page->capability() ) ) {
 			return;
@@ -239,6 +271,10 @@ class Page_Dispatcher {
 	 * @return void
 	 */
 	public function register_single_page( Page $page ): void {
+		if ( isset( $this->group_claimed[ \get_class( $page ) ] ) ) {
+			return;
+		}
+
 		// Register view if required.
 		if ( \method_exists( $page, 'set_view' ) ) {
 			$page->set_view( $this->view );
