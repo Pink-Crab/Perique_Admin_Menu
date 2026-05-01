@@ -132,3 +132,56 @@ class My_Group extends Abstract_Group{
    }
 }
 ```
+
+---
+
+## Hooks
+
+### `Hooks::GROUPS_PROCESSED` — `pinkcrab/admin_menu/groups_processed`
+
+Fires once during the registration pass, from `Page_Middleware::tear_down()`, after Admin_Menu has finished scanning every registered class for `Abstract_Group` instances. Subscribers receive the populated `Group_Page_Registry` as the only argument.
+
+This is the extension point for other Perique modules (e.g. Settings_Page) that want to apply DI rules to page classes declared inside Groups — pages that would otherwise never be visible to a downstream middleware's `process()` because they were never listed in `App::registration_classes()`.
+
+Subscribers must register the listener no later than `pre_register` so the action is in place before middleware processing begins. The hook is order-independent — it fires from Admin_Menu's own `tear_down()`, so it does not matter where the consumer module sits in the module list.
+
+Payload:
+
+| Argument | Type | Description |
+|---|---|---|
+| `$registry` | `PinkCrab\Perique_Admin_Menu\Registry\Group_Page_Registry` | Populated registry of every page class declared inside an `Abstract_Group`, mapped to the declaring group instance. |
+
+`Group_Page_Registry` exposes:
+
+- `has( string $page_class ): bool`
+- `group_for( string $page_class ): ?Abstract_Group`
+- `all(): array<class-string, Abstract_Group>`
+- `all_for_subclass( string $base_class ): array<class-string, Abstract_Group>` — convenience filter, e.g. `$registry->all_for_subclass( My_Settings_Page::class )`.
+
+Example — a downstream module module subscribing in `pre_register` to wire DI rules for every Group-declared page that extends a base `My_Page` type:
+
+```php
+use PinkCrab\Perique_Admin_Menu\Hooks;
+use PinkCrab\Perique_Admin_Menu\Registry\Group_Page_Registry;
+
+class My_Module implements Module {
+
+    public function pre_register( App_Config $config, Hook_Loader $loader, DI_Container $di_container ): void {
+        $loader->action(
+            Hooks::GROUPS_PROCESSED,
+            function ( Group_Page_Registry $registry ) use ( $di_container ): void {
+                foreach ( $registry->all_for_subclass( My_Page::class ) as $page_class => $group ) {
+                    $di_container->addRule( $page_class, [
+                        'shared' => true,
+                        'call'   => [ [ 'configure', [ /* ... */ ] ] ],
+                    ] );
+                }
+            }
+        );
+    }
+
+    // ...
+}
+```
+
+By the time WordPress fires `admin_menu` (where `Page_Dispatcher` materialises the pages via the DI container), the consumer's rules are in place and applied to the constructed page instances.

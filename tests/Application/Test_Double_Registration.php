@@ -36,7 +36,9 @@ use PinkCrab\Perique\Interfaces\Renderable;
 use PinkCrab\Perique\Application\App_Factory;
 use PinkCrab\Perique\Services\View\PHP_Engine;
 use Gin0115\WPUnit_Helpers\WP\Menu_Page_Inspector;
+use PinkCrab\Perique_Admin_Menu\Hooks;
 use PinkCrab\Perique_Admin_Menu\Module\Admin_Menu;
+use PinkCrab\Perique_Admin_Menu\Registry\Group_Page_Registry;
 use PinkCrab\Perique_Admin_Menu\Tests\Integration\Helper_Factory;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Page;
 use PinkCrab\Perique_Admin_Menu\Tests\Fixtures\Valid_Group\Valid_Group;
@@ -241,5 +243,42 @@ class Test_Double_Registration extends WP_UnitTestCase {
 		$marker     = 'Valid Primary Page Data';
 		$occurrence = substr_count( $output, $marker );
 		$this->assertSame( 1, $occurrence, "Expected '{$marker}' to appear exactly once but it appeared {$occurrence} times — render callback fired more than once." );
+	}
+
+	/**
+	 * @testdox [APPLICATION] Hooks::GROUPS_PROCESSED fires once during boot with the populated Group_Page_Registry — downstream modules subscribed in pre_register receive every Group-declared page class.
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
+	public function test_groups_processed_hook_publishes_populated_registry(): void {
+		$received = array(
+			'count'    => 0,
+			'registry' => null,
+		);
+
+		add_action(
+			Hooks::GROUPS_PROCESSED,
+			function ( $registry ) use ( &$received ) {
+				$received['count']++;
+				$received['registry'] = $registry;
+			}
+		);
+
+		$this->boot_app_with(
+			array(
+				Valid_Group::class,
+			)
+		);
+
+		$this->assertSame( 1, $received['count'], 'GROUPS_PROCESSED must fire exactly once during boot.' );
+		$this->assertInstanceOf( Group_Page_Registry::class, $received['registry'] );
+		$this->assertTrue(
+			$received['registry']->has( Valid_Primary_Page::class ),
+			'Registry passed to GROUPS_PROCESSED must contain the group primary page.'
+		);
+		$this->assertTrue(
+			$received['registry']->has( Valid_Page::class ),
+			'Registry passed to GROUPS_PROCESSED must contain every Group-declared sub-page.'
+		);
 	}
 }

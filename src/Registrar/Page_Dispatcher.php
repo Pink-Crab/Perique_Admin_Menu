@@ -32,6 +32,7 @@ use PinkCrab\Perique_Admin_Menu\Registrar\Registrar;
 use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
 use PinkCrab\Perique_Admin_Menu\Exception\Page_Exception;
 use PinkCrab\Perique_Admin_Menu\Exception\Group_Exception;
+use PinkCrab\Perique_Admin_Menu\Registry\Group_Page_Registry;
 use PinkCrab\Perique_Admin_Menu\Validator\Group_Validator;
 
 class Page_Dispatcher {
@@ -40,13 +41,6 @@ class Page_Dispatcher {
 	protected View $view;
 	protected Registrar $registrar;
 
-	/**
-	 * Page class names already claimed by an Abstract_Group.
-	 *
-	 * @var array<string, true>
-	 */
-	protected array $group_claimed = array();
-
 	public function __construct( DI_Container $di_container, View $view, Registrar $registrar ) {
 		$this->di_container = $di_container;
 		$this->view         = $view;
@@ -54,23 +48,57 @@ class Page_Dispatcher {
 	}
 
 	/**
-	 * Marks a page class as managed by an Abstract_Group.
+	 * Lazy-resolves the shared Group_Page_Registry from the DI container.
 	 *
-	 * @param string $page_class Fully-qualified Page class name.
-	 * @return void
+	 * @return Group_Page_Registry
 	 */
-	public function mark_group_claimed( string $page_class ): void {
-		$this->group_claimed[ $page_class ] = true;
+	protected function registry(): Group_Page_Registry {
+		/** @var Group_Page_Registry */
+		$registry = $this->di_container->create( Group_Page_Registry::class );
+		return $registry;
 	}
 
 	/**
-	 * Returns true if the given page class has been claimed by a Group.
+	 * Returns the shared Group_Page_Registry instance.
 	 *
-	 * @param string $page_class Fully-qualified Page class name.
-	 * @return bool
+	 * Used by Page_Middleware::tear_down() to publish the registry to
+	 * downstream subscribers via the Hooks::GROUPS_PROCESSED action.
+	 *
+	 * @return Group_Page_Registry
 	 */
-	public function is_group_claimed( string $page_class ): bool {
-		return isset( $this->group_claimed[ $page_class ] );
+	public function get_group_page_registry(): Group_Page_Registry {
+		return $this->registry();
+	}
+
+	/**
+	 * Records every page class declared on a Group into the shared registry.
+	 *
+	 * @param Abstract_Group $group
+	 * @return void
+	 */
+	public function record_group_pages( Abstract_Group $group ): void {
+		$registry = $this->registry();
+
+		try {
+			$primary = $group->get_primary_page();
+			if ( '' !== $primary ) {
+				$registry->record( $primary, $group );
+			}
+		} catch ( \Throwable $th ) {
+			unset( $th );
+		}
+
+		try {
+			$pages = $group->get_pages();
+		} catch ( \Throwable $th ) {
+			return;
+		}
+
+		foreach ( $pages as $page_class ) {
+			if ( is_string( $page_class ) && '' !== $page_class ) {
+				$registry->record( $page_class, $group );
+			}
+		}
 	}
 
 	/**
@@ -243,7 +271,7 @@ class Page_Dispatcher {
 	 */
 	public function register_subpage( Page $page, string $parent_slug, ?Abstract_Group $group = null ): void {
 		// Only suppress non-group-context calls.
-		if ( null === $group && isset( $this->group_claimed[ \get_class( $page ) ] ) ) {
+		if ( null === $group && $this->registry()->has( \get_class( $page ) ) ) {
 			return;
 		}
 
@@ -271,7 +299,7 @@ class Page_Dispatcher {
 	 * @return void
 	 */
 	public function register_single_page( Page $page ): void {
-		if ( isset( $this->group_claimed[ \get_class( $page ) ] ) ) {
+		if ( $this->registry()->has( \get_class( $page ) ) ) {
 			return;
 		}
 
